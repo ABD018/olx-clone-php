@@ -68,9 +68,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
             $stmt->bind_param("si", $uploadFile, $user_id);
 
             if ($stmt->execute()) {
-                $photo_url = htmlspecialchars($uploadFile);
+                $user['profile_photo'] = $uploadFile; // Update user data to reflect new photo
+                $_SESSION['profile_photo'] = $uploadFile; // Save the photo path in session
                 $message = 'Profile photo updated successfully!';
-                $user['profile_photo'] = $photo_url; // Update user data to reflect new photo
             } else {
                 $errors[] = 'Error updating profile photo.';
             }
@@ -226,6 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
 
         .profile-picture-box {
             text-align: center;
+            display: block;
             width: 200px;
         }
 
@@ -286,18 +287,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
                             <form method="POST">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user['name']); ?>" readonly>
+                                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($user['name']); ?>">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
-                                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" readonly>
+                                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
                                 </div>
                                 <button type="submit" name="update_profile" class="btn btn-primary">Update Profile</button>
                             </form>
                         </div>
 
                         <div class="profile-picture-box">
-                            <img src="<?php echo htmlspecialchars($user['profile_photo'] ?: 'assets/images/default-profile.png'); ?>" alt="Profile Picture" id="profile-pic">
+                            <img src="<?php echo htmlspecialchars($_SESSION['profile_photo'] ?? $user['profile_photo'] ?? 'assets/images/default-profile.png'); ?>" alt="Profile Picture" id="profile-pic">
                             <form method="POST" enctype="multipart/form-data" class="change-photo-form">
                                 <input type="file" id="profile-photo" name="profile-photo" class="form-control">
                                 <button type="submit" class="btn btn-secondary change-photo-btn">Change Photo</button>
@@ -452,3 +453,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
     <script src="assets/js/script.js"></script>
 </body>
 </html>
+
