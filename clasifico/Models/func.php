@@ -147,7 +147,7 @@ function getUserById($userId) {
     $db = new Database();
     $conn = $db->getConnection();
 
-    $stmt = $conn->prepare("SELECT id, name, email FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, name, email, profile_photo FROM users WHERE id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -217,6 +217,7 @@ function getAdDetails($ad_id) {
         return null;
     }
 }
+
 
 
 

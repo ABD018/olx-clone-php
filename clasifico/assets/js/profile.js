@@ -58,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedCategory = this.getAttribute('data-value');
             categoryButton.textContent = selectedCategory;
         });
+        
     });
 
     // Function to format time
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    console.log("hi");
                     const cardDeck = document.getElementById('listings-cards');
                     cardDeck.innerHTML = ''; // Clear existing ads
                     data.ads.forEach((ad, index) => {
@@ -157,9 +159,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('Error fetching ads:', error);
             });
     }
-
+ 
     // Fetch ads when the page loads
     fetchAds();
+    
 
     submitAdForm.addEventListener('submit', function(e) {
         e.preventDefault();

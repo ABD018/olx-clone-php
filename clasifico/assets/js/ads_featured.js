@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                             </div>
                             <div class="category"><i class="fas fa-tags"></i><p>${ad.category}</p></div>
-                            <h3 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${ad.title}</h3>
+                            <h3 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="browse-ads-details.php?id=${ad.id}">${ad.title}</a></h3>
                             <ul class="rating clearfix">
                                 ${'<li><i class="icon-17"></i></li>'.repeat(ad.rating)}
                                 <li><a href="index.php">(${ad.rating_count})</a></li>

@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                     <div class="lower-content" style="padding: 10px; display: flex; flex-direction: column; flex: 1;">
                         <div class="category" style="font-size: 14px; color: #666; margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-tags"></i><p>${ad.category}</p></div>
-                        <h4 style="font-size: 16px; margin: 10px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="browse-ads-details.php">${ad.title}</a></h4>
+                        <h4 style="font-size: 16px; margin: 10px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="browse-ads-details.php?id=${ad.id}">${ad.title}</a></h4>
                         <ul class="rating clearfix" style="list-style: none; padding: 0; margin: 0;">
                             ${'<li><i class="${ad.icon_class}"></i></li>'.repeat(ad.rating)}
                             <li><a href="index.php">(${ad.rating_count})</a></li>
