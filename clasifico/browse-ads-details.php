@@ -44,15 +44,24 @@ if ($adId > 0) {
     $ad = getFeaturedAdById($adId);
 
     if ($ad) {
-        // Display the ad details
-        // Use HTML structure to display the ad details
+        // Decode the reference_images JSON field
+        $referenceImages = json_decode($ad['reference_images'], true);
+
+        // Ensure $referenceImages is an array
+        if (!is_array($referenceImages)) {
+            $referenceImages = [];
+        }
     } else {
         echo '<p>Ad not found.</p>';
+        exit;
     }
 } else {
     echo '<p>No ad ID specified.</p>';
+    exit;
 }
 ?>
+
+
 <style>
                 .page-title-2 {
                     background-image: url('<?php echo htmlspecialchars($ad['image']); ?>');
@@ -154,149 +163,39 @@ if ($adId > 0) {
                     <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                         <div class="add-details-content">
                             <div class="content-one single-box">
-                                <div class="text">
-                                    <h3>Product Description</h3>
-                                    <p>Lorem ipsum dolor sit amet consectetur adipisicing sed eiusm tempor incididunt labore dolore magna aliqua enim minim veniam quis nostrud exercitation laboris nisi ut aliquip ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur occaecat pariatur occaecat</p>
-                                    <p>Excepteur sint occaecat cupidatat non proident s unt in culpa qui officia deserunt mollit anim  est laborum. Sed perspiciatis unde omnis iste natus error sit voluptatem accusantium dolore mque laudantium totam rem aperiam.</p>
-                                </div>
+                            <div class="text">
+                            <h3>Product Description</h3>
+                            <?php echo htmlspecialchars($ad['description']); ?></p>
+                        </div>
                             </div>
                             <div class="content-two single-box">
-                                <div class="bxslider">
-                                    <div class="slider-content">
-                                        <div class="product-image">
-                                            <figure class="image"><img src="assets/images/resource/add-single-1.jpg" alt=""></figure>
-                                        </div>
-                                        <div class="slider-pager">
-                                            <ul class="thumb-box clearfix">
-                                                <li>
-                                                    <a class="active" data-slide-index="0" href="#"><figure><img src="assets/images/resource/single-thumb-1.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="1" href="#"><figure><img src="assets/images/resource/single-thumb-2.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="2" href="#"><figure><img src="assets/images/resource/single-thumb-3.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="3" href="#"><figure><img src="assets/images/resource/single-thumb-4.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="4" href="#"><figure><img src="assets/images/resource/single-thumb-5.jpg" alt=""></figure></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="slider-content">
-                                        <div class="product-image">
-                                            <figure class="image"><img src="assets/images/resource/add-single-2.jpg" alt=""></figure>
-                                        </div>
-                                        <div class="slider-pager">
-                                            <ul class="thumb-box clearfix">
-                                                <li>
-                                                    <a class="active" data-slide-index="0" href="#"><figure><img src="assets/images/resource/single-thumb-1.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="1" href="#"><figure><img src="assets/images/resource/single-thumb-2.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="2" href="#"><figure><img src="assets/images/resource/single-thumb-3.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="3" href="#"><figure><img src="assets/images/resource/single-thumb-4.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="4" href="#"><figure><img src="assets/images/resource/single-thumb-5.jpg" alt=""></figure></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="slider-content">
-                                        <div class="product-image">
-                                            <figure class="image"><img src="assets/images/resource/add-single-3.jpg" alt=""></figure>
-                                        </div>
-                                        <div class="slider-pager">
-                                            <ul class="thumb-box clearfix">
-                                                <li>
-                                                    <a class="active" data-slide-index="0" href="#"><figure><img src="assets/images/resource/single-thumb-1.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="1" href="#"><figure><img src="assets/images/resource/single-thumb-2.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="2" href="#"><figure><img src="assets/images/resource/single-thumb-3.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="3" href="#"><figure><img src="assets/images/resource/single-thumb-4.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="4" href="#"><figure><img src="assets/images/resource/single-thumb-5.jpg" alt=""></figure></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="slider-content">
-                                        <div class="product-image">
-                                            <figure class="image"><img src="assets/images/resource/add-single-4.jpg" alt=""></figure>
-                                        </div>
-                                        <div class="slider-pager">
-                                            <ul class="thumb-box clearfix">
-                                                <li>
-                                                    <a class="active" data-slide-index="0" href="#"><figure><img src="assets/images/resource/single-thumb-1.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="1" href="#"><figure><img src="assets/images/resource/single-thumb-2.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="2" href="#"><figure><img src="assets/images/resource/single-thumb-3.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="3" href="#"><figure><img src="assets/images/resource/single-thumb-4.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="4" href="#"><figure><img src="assets/images/resource/single-thumb-5.jpg" alt=""></figure></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="slider-content">
-                                        <div class="product-image">
-                                            <figure class="image"><img src="assets/images/resource/add-single-5.jpg" alt=""></figure>
-                                        </div>
-                                        <div class="slider-pager">
-                                            <ul class="thumb-box clearfix">
-                                                <li>
-                                                    <a class="active" data-slide-index="0" href="#"><figure><img src="assets/images/resource/single-thumb-1.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="1" href="#"><figure><img src="assets/images/resource/single-thumb-2.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="2" href="#"><figure><img src="assets/images/resource/single-thumb-3.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="3" href="#"><figure><img src="assets/images/resource/single-thumb-4.jpg" alt=""></figure></a>
-                                                </li>
-                                                <li>
-                                                    <a data-slide-index="4" href="#"><figure><img src="assets/images/resource/single-thumb-5.jpg" alt=""></figure></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content-three single-box">
-                                <div class="text">
-                                    <h3>Features:</h3>
-                                    <ul class="list-item clearfix">
-                                        <li>256GB PCI flash storage</li>
-                                        <li>2.7 GHz dual-core Intel Core i5 processor</li>
-                                        <li>Turbo Boost up to 3.1GHz</li>
-                                        <li>Intel Iris Graphics 6100</li>
-                                        <li>8GB memory (up from 4GB in 2013 model)</li>
-                                        <li>1 Year international warranty</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            <div class="bxslider">
+    <div class="slider-content">
+        <div class="product-image">
+            <!-- Main image, you can set this to the first reference image or another main image -->
+            <figure class="image">
+                <img src="assets/uploads/reference_images/<?php echo htmlspecialchars($referenceImages[0] ?? 'default-image.jpg'); ?>" alt="">
+            </figure>
+        </div>
+                                <!-- display five images in a slider dynamically -->
+        <div class="slider-pager">
+            <ul class="thumb-box clearfix">
+                <?php foreach ($referenceImages as $index => $image): ?>
+                    <li>
+                        <a class="<?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $index; ?>" href="#">
+                            <figure>
+                                <img src="assets/uploads/reference_images/<?php echo htmlspecialchars($image); ?>" alt="">
+                            </figure>
+                        </a>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+                        
                             <div class="content-four single-box">
                                 <div class="text">
                                     <h3>Location</h3>
@@ -304,21 +203,15 @@ if ($adId > 0) {
                                 <div class="contact-map">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55945.16225505631!2d-73.90847969206546!3d40.66490264739892!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1601263396347!5m2!1sen!2sbd"></iframe>
                                 </div>
-                                <ul class="info-box clearfix">
-                                    <li><span>Address:</span> Virginia drive temple hills</li>
-                                    <li><span>Country:</span> United State</li>
-                                    <li><span>State/county:</span> California</li>
-                                    <li><span>Neighborhood:</span> Andersonville</li>
-                                    <li><span>Zip/Postal Code:</span> 2403</li>
-                                    <li><span>City:</span> Brooklyn</li>
-                                </ul>
+                            
+                                <p class="info-box clearfix">Address: <?php echo htmlspecialchars($ad['location']); ?></p>
                             </div>
                             <div class="content-five single-box">
                                 <div class="text">
-                                    <h4>Leave a Review</h4>
+                                    <h4>Contact Now</h4>
                                     <p>Your email address will not be published. Required fields are marked *</p>
                                 </div>
-                                <form action="https://azim.commonsupport.com/Clasifico/browse-add-details.html" method="post" class="review-form">
+                                <form action="#" method="post" class="review-form">
                                     <div class="row clearfix">
                                         <div class="col-lg-6 col-md-6 col-sm-12 column">
                                             <div class="form-group">
@@ -338,21 +231,10 @@ if ($adId > 0) {
                                                 <input type="text" name="title" required="">
                                             </div>
                                         </div>
+                                       
                                         <div class="col-lg-12 col-md-12 col-sm-12 column">
                                             <div class="form-group">
-                                                <label>Your Rating*</label>
-                                                <ul class="rating clearfix">
-                                                    <li><i class="icon-32"></i></li>
-                                                    <li><i class="icon-32"></i></li>
-                                                    <li><i class="icon-32"></i></li>
-                                                    <li><i class="icon-32"></i></li>
-                                                    <li><i class="icon-32"></i></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 column">
-                                            <div class="form-group">
-                                                <label>Review Title*</label>
+                                                <label>Review Description*</label>
                                                 <textarea name="message"></textarea>
                                             </div>
                                         </div>
@@ -366,41 +248,9 @@ if ($adId > 0) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                    <!-- <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="default-sidebar category-sidebar">
-                            <div class="sidebar-search sidebar-widget">
-                                <div class="widget-title">
-                                    <h3>Search</h3>
-                                </div>
-                                <div class="widget-content">
-                                    <form action="https://azim.commonsupport.com/Clasifico/category-details.html" method="post" class="search-form">
-                                        <div class="form-group">
-                                            <input type="search" name="search-field" placeholder="Search Keyword..." required="">
-                                            <button type="submit"><i class="icon-2"></i></button>
-                                        </div>
-                                        <div class="form-group">
-                                            <i class="icon-3"></i>
-                                            <select class="wide">
-                                               <option data-display="Select Location">Select Location</option>
-                                               <option value="1">California</option>
-                                               <option value="2">New York</option>
-                                               <option value="3">Sun Francis</option>
-                                               <option value="4">Shicago</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <i class="icon-4"></i>
-                                            <select class="wide">
-                                               <option data-display="Select Category">Select Category</option>
-                                               <option value="1">Education</option>
-                                               <option value="2">Restaurant</option>
-                                               <option value="3">Real Estate</option>
-                                               <option value="4">Home Appliances</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            
                             <div class="sidebar-category sidebar-widget">
                                 <div class="widget-title">
                                     <h3>Category</h3>
@@ -433,341 +283,14 @@ if ($adId > 0) {
                                     </ul>
                                 </div>
                             </div>
-                            <div class="price-filter sidebar-widget">
-                                <div class="widget-title">
-                                    <h3>Pricing range</h3>
-                                </div>
-                                <div class="price-range">
-                                    <div class="row clearfix">
-                                        <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-                                            <input type="text" name="min_price" placeholder="Min">
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-                                            <input type="text" name="max_price" placeholder="Max">
-                                        </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                            <button type="submit" class="theme-btn-one">Apply price</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
         <!-- browse-add-details end -->
-
-
-        <!-- related-ads -->
-        <section class="related-ads">
-            <div class="auto-container">
-                <div class="sec-title">
-                    <span>Related Ads</span>
-                    <h2>Related Ads</h2>
-                </div>
-                <div class="three-item-carousel owl-carousel owl-theme owl-nav-none dots-style-one">
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-1.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(32)</a></li>
-                                </ul>
-                                <h5>$3,000.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-1.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-2.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(25)</a></li>
-                                </ul>
-                                <h5>$2,000.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-2.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-3.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(30)</a></li>
-                                </ul>
-                                <h5>$3,500.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-3.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-1.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(32)</a></li>
-                                </ul>
-                                <h5>$3,000.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-1.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-2.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(25)</a></li>
-                                </ul>
-                                <h5>$2,000.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-2.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-3.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(30)</a></li>
-                                </ul>
-                                <h5>$3,500.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-3.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-1.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(32)</a></li>
-                                </ul>
-                                <h5>$3,000.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-1.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-2.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(25)</a></li>
-                                </ul>
-                                <h5>$2,000.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-2.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="feature-block-one">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><img src="assets/images/resource/feature-3.jpg" alt=""></figure>
-                                <div class="shape"></div>
-                                <div class="feature">Featured</div>
-                                <div class="icon">
-                                    <div class="icon-shape"></div>
-                                    <i class="icon-16"></i>
-                                </div>
-                                <ul class="rating clearfix">
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><i class="icon-17"></i></li>
-                                    <li><a href="index.php">(30)</a></li>
-                                </ul>
-                                <h5>$3,500.00</h5>
-                            </div>
-                            <div class="lower-content">
-                                <div class="author-box">
-                                    <div class="inner">
-                                        <img src="assets/images/resource/author-3.png" alt="">
-                                        <h6>Michael Bean<i class="icon-18"></i></h6>
-                                        <span>For sell</span>
-                                    </div>
-                                </div>
-                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                <h3>Villa on Grand Avenue </h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- related-ads end -->
+        
 
 
         <!-- subscribe-section -->
@@ -783,9 +306,9 @@ if ($adId > 0) {
                         </div>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12 form-column">
-                        <form action="https://azim.commonsupport.com/Clasifico/contact.html" method="post" class="subscribe-form">
+                        <form action="contact.php" method="post" class="subscribe-form">
                             <div class="form-group">
-                                <input type="email" name="email" placeholder="Inout your email address" required="">
+                                <input type="email" name="email" placeholder="Input your email address" required="">
                                 <button type="submit" class="theme-btn-one">Subscribe Now</button>
                             </div>
                         </form>

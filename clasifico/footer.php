@@ -6,7 +6,7 @@
                 <div class="row clearfix">
                     <div class="col-lg-3 col-md-6 col-sm-12 footer-column">
                         <div class="footer-widget logo-widget">
-                            <figure class="footer-logo"><a href="index.php"><img src="assets/images/footer-logo.png" alt=""></a></figure>
+                            <figure class="footer-logo"><a href="index.php"><img src="assets/images/logo.png" alt=""></a></figure>
                             <div class="text">
                                 <p>Welcome to OLX, your go-to destination for buying, selling, renting, and exchanging items with ease. Our platform connects you with a vibrant community of users, offering a diverse range of categories to explore. Whether you’re looking for great deals, unique finds, or simply want to declutter, [Your Website Name] makes it effortless with just a few clicks. Join us today and experience a seamless marketplace where your needs come first!</p>
                             </div>
@@ -78,7 +78,7 @@
                                     </li>
                                     <li>
                                         <i class="fas fa-envelope"></i>
-                                        <a href="mailto:info@example.com">amanbahukhandi07.com</a>
+                                        <a href="mailto:info@example.com">amanbahukhandi07@gmail.com</a>
                                     </li>
                                 </ul>
                             </div>

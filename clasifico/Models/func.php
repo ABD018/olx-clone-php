@@ -21,7 +21,7 @@ function getFeaturedAds() {
     $db = new Database();
     $conn = $db->getConnection();
 
-    $sql = "SELECT * FROM featured_ads ORDER BY RAND()";
+    $sql = "SELECT * FROM featured_ads ORDER BY RAND() LIMIT 6";
     $result = $conn->query($sql);
 
     $ads = [];
@@ -97,7 +97,6 @@ function signup($data) {
     }
 }
 
-
 function login($data) {
     $db = new Database();
     $conn = $db->getConnection();
@@ -115,7 +114,7 @@ function login($data) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
-            session_start();
+            // session_start();
             $_SESSION['user_id'] = $user['id'];
             $conn->close();
             return ['success' => true];
@@ -177,5 +176,48 @@ function updateUserProfile($userId, $name, $email, $password) {
 
     return $success;
 }
+
+function addFeaturedAd($title, $description, $adImage, $iconClass, $category, $location, $price, $authorImage, $authorName, $authorRole, $rating, $ratingCount, $timeAgo) {
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    $createdAt = date('Y-m-d H:i:s'); // Current timestamp
+
+    $stmt = $conn->prepare("INSERT INTO featured_ads (title, description, image, icon_class, category, location, price, author_image, author_name, author_role, rating, rating_count, time_ago) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    if ($stmt === false) {
+        echo json_encode(['success' => false, 'error' => 'Prepare failed: ' . $conn->error]);
+        exit;
+    }
+
+    $stmt->bind_param("sssssssssssss", $title, $description, $adImage, $iconClass, $category, $location, $price, $authorImage, $authorName, $authorRole, $rating, $ratingCount, $timeAgo);
+    
+    $success = $stmt->execute();
+
+    $stmt->close();
+    $conn->close();
+
+    return $success;
+}
+
+
+// func.php
+
+function getAdDetails($ad_id) {
+    global $conn; // Assuming you have a database connection stored in $conn
+
+    $sql = "SELECT title, description, image_urls FROM featured_ads WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $ad_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        return $result->fetch_assoc();
+    } else {
+        return null;
+    }
+}
+
+
 
 ?>
