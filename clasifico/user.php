@@ -11,159 +11,321 @@
 
     <style>
        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        #wrapper {
-            display: flex;
-            width: 100%;
-            height: 100vh;
-            overflow: hidden;
-        }
+#wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
 
-        #sidebar-wrapper {
-            width: 250px;
-            height: 100%;
-            background: #343a40;
-            color: white;
-            position: fixed;
-            transition: all 0.3s ease-in-out;
-        }
+#sidebar-wrapper {
+    width: 250px;
+    height: 100%;
+    background: linear-gradient(135deg, #6e7bff, #a3a0f6); /* Gradient background */
+    color: white;
+    position: fixed;
+    transition: all 0.3s ease-in-out;
+    padding-top: 20px;
+}
 
-        #page-content-wrapper {
-            width: calc(100% - 250px);
-            margin-left: 250px;
-            overflow-y: auto;
-            transition: all 0.3s ease-in-out;
-        }
+#page-content-wrapper {
+    width: calc(100% - 250px);
+    margin-left: 250px;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+}
 
-        .list-group-item {
-            padding: 10px 15px;
-            cursor: pointer;
-            color: white;
-            text-decoration: none;
-            display: block;
-            background-color: #343a40; /* Same as sidebar background */
-            border-bottom: 1px solid white;
-        }
+.list-group-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+}
 
-        .list-group-item:hover {
-            background-color: #495057;
-        }
+.list-group-item i {
+    margin-right: 10px;
+}
 
-        .list-group-item.active {
-            background-color: #007bff; /* Blue background for active state */
-            color: white;
-            font-weight: bold;
-        }
+.list-group-item:hover {
+    background-color: #495057;
+}
 
-        .content-section {
-            display: none;
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-        }
+.list-group-item.active {
+    background-color: #ffffff; /* White background for active state */
+    color: #007bff;
+    font-weight: bold;
+}
 
-        .content-section.active {
-            display: block;
-            opacity: 1;
-        }
-
-        .navbar {
-            background: #f8f9fa;
-            padding: 10px 15px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .btn {
-            padding: 10px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:focus {
-            outline: none;
-        }
-
-        .container-fluid {
-            padding: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .alert {
-            padding: 15px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            border-radius: 4px;
-            margin-bottom: 20px;
-        }
-
-        .alert-success {
-            background-color: #d4edda;
-            color: #155724;
-            border-color: #c3e6cb;
-        }
-
-        .alert ul {
-            margin: 0;
-            padding: 0;
-            list-style-type: none;
-        }
-
-        .profile-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            padding: 20px;
-        }
-
-        .profile-details {
-            flex: 1;
-            margin-right: 20px;
-        }
-
-        .profile-picture-box {
-            text-align: center;
-            display: block;
-            width: 200px;
-        }
-
-        .profile-picture-box img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%; /* Circular shape */
-            object-fit: cover; /* Ensure image covers the circular area */
-        }
-
-        .change-photo-btn {
-            margin-top: 10px;
-        }
-        .dropdown-menu {
+.content-section {
     display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.content-section.active {
+    display: block;
+    opacity: 1;
+}
+
+.navbar {
+    background: #ffffff;
+    padding: 15px 30px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow */
+}
+
+.navbar .btn {
+    background-color: #007bff;
+    color: white;
+    border-radius: 20px; /* Rounded button */
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+}
+
+.navbar .btn:hover {
+    background-color: #0056b3;
+}
+
+.btn {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:focus {
+    outline: none;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.alert {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border-color: #c3e6cb;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-color: #f5c6cb;
+}
+
+.alert i {
+    margin-right: 10px;
+}
+
+.alert ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-details {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.profile-picture-box {
+    text-align: center;
+    width: 200px;
+}
+
+.profile-picture-box img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* Circular shape */
+    object-fit: cover; /* Ensure image covers the circular area */
+    border: 2px solid #007bff; /* Add border around profile image */
+}
+
+.change-photo-btn {
+    margin-top: 10px;
+}
+
+.dropdown-menu {
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .dropdown-menu.show {
     display: block;
 }
+
+/* Modal Container */
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    padding: 20px;
+    background: #ffffff;
+}
+
+/* Modal Header */
+.modal-header {
+    border-bottom: 2px solid #f1f1f1;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.modal-header .close {
+    font-size: 1.5rem;
+    color: #007bff;
+}
+
+.modal-header .close:hover {
+    color: #0056b3;
+}
+
+/* Modal Body */
+.modal-body {
+    padding: 20px;
+    font-size: 1rem;
+}
+
+.modal-body .form-group {
+    margin-bottom: 20px;
+}
+
+.modal-body label {
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-body input[type="file"] {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    width: 100%;
+}
+
+.modal-body .image-preview {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.modal-body .image-preview img {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 4px;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+/* Modal Footer */
+.modal-footer {
+    border-top: 2px solid #f1f1f1;
+    padding-top: 15px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6e7bff, #a3a0f6);
+    border: none;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    transition: background 0.3s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a6ef7, #8a8bfc);
+}
+
+.btn-secondary {
+    background: #f1f1f1;
+    color: #333;
+    border-radius: 20px;
+    padding: 10px 20px;
+    border: none;
+    margin-left: 10px;
+}
+
+.btn-secondary:hover {
+    background: #ddd;
+}
+
+
+.navbar .btn {
+    background-color: #007bff;
+    color: white;
+    border-radius: 20px; /* Rounded button */
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+}
+
+.navbar .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Adjust the home button visibility and hover */
+.navbar .btn a {
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .btn a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+
     </style>
 </head>
 
@@ -240,8 +402,9 @@
     
 
     <!-- Modal HTML code -->
+<!-- Submit New Ad Modal -->
 <div class="modal fade" id="submitAdModal" tabindex="-1" role="dialog" aria-labelledby="submitAdModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="submitAdModalLabel">Submit New Ad</h5>
@@ -254,24 +417,25 @@
                 <form id="submitAdForm" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="adTitle">Title</label>
-                        <input type="text" class="form-control" id="adTitle" required>
+                        <input type="text" class="form-control" id="adTitle" placeholder="Enter the title of your ad" required>
                     </div>
                     <div class="form-group">
                         <label for="adDescription">Description</label>
-                        <textarea class="form-control" id="adDescription" required></textarea>
+                        <textarea class="form-control" id="adDescription" placeholder="Describe your ad in detail" rows="4" required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="adImage">Choose Photo</label>
-                        <input type="file" class="form-control" id="adImage" accept="image/*" required>
+                        <label for="adImage">Cover Photo</label>
+                        <input type="file" class="form-control-file" id="adImage" accept="image/*" required>
                     </div>
                     <div class="form-group">
                         <label for="referenceImages">Reference Images (Min. 3, Max. 5)</label>
-                        <input type="file" class="form-control" id="referenceImages" name="referenceImages[]" accept="image/*" multiple required>
+                        <input type="file" class="form-control-file" id="referenceImages" name="referenceImages[]" accept="image/*" multiple required>
                         <small class="form-text text-muted">Upload up to 5 photos. At least 3 are required.</small>
+                        <div class="image-preview" id="imagePreview"></div>
                     </div>
                     <div class="form-group">
                         <label for="authorImage">Author Image</label>
-                        <input type="file" class="form-control" id="authorImage" accept="image/*">
+                        <input type="file" class="form-control-file" id="authorImage" accept="image/*">
                     </div>
                     <div class="form-group">
                         <label for="authorName">Author Name</label>
@@ -293,25 +457,26 @@
                                 <a class="dropdown-item" href="#" data-value="Electronics">Electronics</a>
                                 <a class="dropdown-item" href="#" data-value="Health & Beauty">Health & Beauty</a>
                                 <a class="dropdown-item" href="#" data-value="Automotive">Automotive</a>
-                                <a class="dropdown-item" href="#" data-value="Furnitures">Furnitures</a>
+                                <a class="dropdown-item" href="#" data-value="Furniture">Furniture</a>
                                 <a class="dropdown-item" href="#" data-value="Real Estate">Real Estate</a>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="adLocation">Location</label>
-                        <input type="text" class="form-control" id="adLocation" required>
+                        <input type="text" class="form-control" id="adLocation" placeholder="Enter location" required>
                     </div>
                     <div class="form-group">
                         <label for="adPrice">Price</label>
-                        <input type="number" class="form-control" id="adPrice" required>
+                        <input type="number" class="form-control" id="adPrice" placeholder="Enter price" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Post</button>
+                    <button type="submit" class="btn btn-primary">Post Ad</button>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 
                     <div class="card-deck" id="listings-cards">
@@ -431,8 +596,6 @@
         return;
     }
 });
-
-
 
     </script>
     <script src="assets/js/popper.min.js"></script>
