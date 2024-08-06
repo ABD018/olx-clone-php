@@ -39,31 +39,26 @@ document.addEventListener("DOMContentLoaded", function() {
 
             adElement.innerHTML = `
                 <div class="inner-box" style="display: flex; flex-direction: column; height: 100%;">
-                    <div class="image-box" style="position: relative; flex: 1;">
-                        <figure class="image" style="margin: 0; overflow: hidden;">
-                            <img src="${ad.image}" alt="" style="width: 100%; height: auto; display: block;">
+                    <div class="image-box" style="position: relative; width: 100%; height: 200px; overflow: hidden;">
+                        <figure class="image" style="margin: 0; width: 100%; height: 100%; overflow: hidden;">
+                            <img src="${ad.image}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
                         </figure>
                         <div class="feature-2" style="position: absolute; top: 10px; left: 10px; background: #f00; color: #fff; padding: 5px; border-radius: 5px;">Featured</div>
                     </div>
                     <div class="lower-content" style="padding: 10px; display: flex; flex-direction: column; flex: 1;">
-                        <div class="category" style="font-size: 14px; color: #666; margin-bottom: 10px;"><i class="fas fa-tags"></i><p>${ad.category}</p></div>
+                        <div class="category" style="font-size: 14px; color: #666; margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-tags"></i><p>${ad.category}</p></div>
                         <h4 style="font-size: 16px; margin: 10px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="browse-ads-details.php">${ad.title}</a></h4>
                         <ul class="rating clearfix" style="list-style: none; padding: 0; margin: 0;">
-                            <li><i class="${ad.icon_class}"></i></li>
-                            <li><i class="${ad.icon_class}"></i></li>
-                            <li><i class="${ad.icon_class}"></i></li>
-                            <li><i class="${ad.icon_class}"></i></li>
-                            <li><i class="${ad.icon_class}"></i></li>
+                            ${'<li><i class="${ad.icon_class}"></i></li>'.repeat(ad.rating)}
                             <li><a href="index.php">(${ad.rating_count})</a></li>
                         </ul>
                         <ul class="info clearfix" style="list-style: none; padding: 0; margin: 0;">
-                            <li><i class="far fa-clock"></i>${ad.time_ago}</li>
-                            <li><i class="fas fa-map-marker-alt"></i>${ad.location}</li>
+                            <li style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="far fa-clock"></i>${ad.time_ago}</li>
+                            <li style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-map-marker-alt"></i>${ad.location}</li>
                         </ul>
                         <div class="lower-box" style="margin-top: auto;">
-                            <h5 style="font-size: 16px; color: #333;"><span>Start From:</span> ${ad.price}</h5>
+                            <h5 style="font-size: 16px; color: #333;"><span>Start From:</span> ₹${ad.price}</h5>
                             <ul class="react-box" style="list-style: none; padding: 0; margin: 0; display: flex; gap: 10px;">
-                                <li style="margin-right: 10px;"><a href="#"><i class="icon-21" style="transform: translateX(10px);"></i></a></li>
                                 <li><a href="#"><i class="icon-22"></i></a></li>
                             </ul>
                         </div>
