@@ -148,71 +148,7 @@
 <br />where everyone’s heading and find your next favorite place.</p>
                     </div>
                     <div class="row clearfix" id="places-container">
-                        <!-- <div class="col-lg-4 col-md-6 col-sm-12 place-block">
-                            <div class="place-block-one wow fadeInDown animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
-                                <div class="inner-box">
-                                    <figure class="image-box"><img src="assets/images/resource/place-1.jpg" alt=""></figure>
-                                    <div class="lower-content">
-                                        <div class="inner">
-                                            <h3><a href="index.php">Los Angeles</a></h3>
-                                            <span>10 Listing</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12 place-block">
-                            <div class="place-block-one wow fadeInDown animated animated" data-wow-delay="200ms" data-wow-duration="1500ms">
-                                <div class="inner-box">
-                                    <figure class="image-box"><img src="assets/images/resource/place-2.jpg" alt=""></figure>
-                                    <div class="lower-content">
-                                        <div class="inner">
-                                            <h3><a href="index.php">San Francisco</a></h3>
-                                            <span>15 Listing</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-6 col-sm-12 place-block">
-                            <div class="place-block-one wow fadeInDown animated animated" data-wow-delay="400ms" data-wow-duration="1500ms">
-                                <div class="inner-box">
-                                    <figure class="image-box"><img src="assets/images/resource/place-3.jpg" alt=""></figure>
-                                    <div class="lower-content">
-                                        <div class="inner">
-                                            <h3><a href="index.php">California City</a></h3>
-                                            <span>08 Listing</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 place-block">
-                            <div class="place-block-one wow fadeInUp animated animated" data-wow-delay="00ms" data-wow-duration="1500ms">
-                                <div class="inner-box">
-                                    <figure class="image-box"><img src="assets/images/resource/place-4.jpg" alt=""></figure>
-                                    <div class="lower-content">
-                                        <div class="inner">
-                                            <h3><a href="index.php">New York City</a></h3>
-                                            <span>05 Listing</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-6 col-sm-12 place-block">
-                            <div class="place-block-one wow fadeInUp animated animated" data-wow-delay="300ms" data-wow-duration="1500ms">
-                                <div class="inner-box">
-                                    <figure class="image-box"><img src="assets/images/resource/place-5.jpg" alt=""></figure>
-                                    <div class="lower-content">
-                                        <div class="inner">
-                                            <h3><a href="index.php">Brooklyn City</a></h3>
-                                            <span>02 Listing</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
+                        
                     </div>
                 </div>
             </div>
@@ -323,7 +259,6 @@
     <script src="assets/js/scrollbar.js"></script>
     <script src="assets/js/jquery.nice-select.min.js"></script>
     <script src="assets/js/ads.js"></script>
-    <script src="assets/js/testimonials.js"></script>
     <script src="assets/js/ads_featured.js"></script>
     <script src="assets/js/top_places.js"></script>
     <script src="assets/js/news.js"></script>

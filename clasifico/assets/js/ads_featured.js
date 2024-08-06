@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <li><i class="fas fa-map-marker-alt"></i>${ad.location}</li>
                             </ul>
                             <div class="lower-box">
-                                <h5><span>Start From:</span>$${ad.price}</h5>
+                                <h5><span>Start From:</span>₹${ad.price}</h5>
                                 <ul class="react-box">
                                     <li><a href="index.php"><i class="icon-21"></i></a></li>
                                     <li><a href="index.php"><i class="icon-22"></i></a></li>

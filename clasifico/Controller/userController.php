@@ -1,5 +1,6 @@
 <?php
 require_once '../Models/func.php';
+session_start();
 
 class UserController {
     public function getCategories() {
@@ -28,6 +29,22 @@ class UserController {
 
     public function getFeaturedAdById($id) {
         return getFeaturedAdById($id);
+    }
+
+    public function fetchProfile($userId) {
+        return getUserById($userId);
+    }
+
+    public function updateProfile($userId, $name, $email, $password) {
+        return updateUserProfile($userId, $name, $email, $password);
+    }
+
+    public function submitAd($data) {
+        return submitAd($data);
+    }
+
+    public function getAdDetails($ad_id) {
+        return getAdDetails($ad_id);
     }
 }
 
@@ -75,28 +92,147 @@ if (isset($_GET['action'])) {
             }
             break;
 
-            case 'fetchProfile':
-                $userId = $_SESSION['user_id'];
-                $user = getUserById($userId);
-                echo json_encode($user);
-                break;
+        case 'fetchProfile':
+            $userId = $_SESSION['user_id'];
+            $user = $controller->fetchProfile($userId);
+            echo json_encode($user);
+            break;
+
+        case 'updateProfile':
+            $userId = $_SESSION['user_id'];
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            if ($controller->updateProfile($userId, $name, $email, $password)) {
+                echo json_encode(['success' => true]);
+            } else {
+                echo json_encode(['success' => false, 'error' => 'Update failed']);
+            }
+            break;
+
+        case 'submitAd':
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'submitAd') {
+                // Retrieve form data
+                $title = trim($_POST['title']);
+                $description = trim($_POST['description']);
+                $category = trim($_POST['category']);
+                $location = trim($_POST['location']);
+                $price = trim($_POST['price']);
+                $authorName = trim($_POST['authorName'] ?? '');
+                $authorRole = trim($_POST['authorRole'] ?? '');
+                $iconClass = 'default-icon'; // Provide a default value or handle as needed
+                $rating = 0; // Set a default value or handle as needed
+                $ratingCount = 0; // Set a default value or handle as needed
+                $timeAgo = 'Just now'; // Set a default value or handle as needed
         
-            case 'updateProfile':
-                $userId = $_SESSION['user_id'];
-                $name = $_POST['name'] ?? '';
-                $email = $_POST['email'] ?? '';
-                $password = $_POST['password'] ?? '';
+                // Validate required fields
+                if (empty($title) || empty($description) || empty($category) || empty($location) || empty($price)) {
+                    echo json_encode(['success' => false, 'error' => 'All fields are required']);
+                    exit;
+                }
         
-                if (updateUserProfile($userId, $name, $email, $password)) {
-                    echo json_encode(['success' => true]);
+                // Handle image uploads
+                $targetDir = "../clasifico/assets/uploads/"; // Ensure this directory is writable
+                $adImagePath = '';
+                $authorImagePath = '';
+        
+                // Handle ad image upload
+                if (isset($_FILES['adImage']) && $_FILES['adImage']['error'] === UPLOAD_ERR_OK) {
+                    $adImageName = basename($_FILES['adImage']['name']);
+                    $adImagePath = $targetDir . 'ads/' . $adImageName;
+        
+                    // Validate file type
+                    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+                    $fileType = pathinfo($adImagePath, PATHINFO_EXTENSION);
+                    if (!in_array($fileType, $allowedTypes)) {
+                        echo json_encode(['success' => false, 'error' => 'Invalid ad image file type']);
+                        exit;
+                    }
+        
+                    // Create directory if it doesn't exist
+                    if (!is_dir(dirname($adImagePath))) {
+                        mkdir(dirname($adImagePath), 0777, true);
+                    }
+        
+                    // Move the uploaded file to the target directory
+                    if (!move_uploaded_file($_FILES['adImage']['tmp_name'], $adImagePath)) {
+                        echo json_encode(['success' => false, 'error' => 'Failed to upload ad image']);
+                        exit;
+                    }
+        
+                    // Update path to be relative to the root directory for frontend access
+                    $adImagePath = str_replace("../", "", $adImagePath);
                 } else {
-                    echo json_encode(['success' => false, 'error' => 'Update failed']);
+                    echo json_encode(['success' => false, 'error' => 'No ad image uploaded or upload error']);
+                    exit;
+                }
+        
+                // Handle author image upload
+                if (isset($_FILES['authorImage']) && $_FILES['authorImage']['error'] === UPLOAD_ERR_OK) {
+                    $authorImageName = basename($_FILES['authorImage']['name']);
+                    $authorImagePath = $targetDir . 'authors/' . $authorImageName;
+        
+                    // Validate file type
+                    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+                    $fileType = pathinfo($authorImagePath, PATHINFO_EXTENSION);
+                    if (!in_array($fileType, $allowedTypes)) {
+                        echo json_encode(['success' => false, 'error' => 'Invalid author image file type']);
+                        exit;
+                    }
+        
+                    // Create directory if it doesn't exist
+                    if (!is_dir(dirname($authorImagePath))) {
+                        mkdir(dirname($authorImagePath), 0777, true);
+                    }
+        
+                    // Move the uploaded file to the target directory
+                    if (!move_uploaded_file($_FILES['authorImage']['tmp_name'], $authorImagePath)) {
+                        echo json_encode(['success' => false, 'error' => 'Failed to upload author image']);
+                        exit;
+                    }
+        
+                    // Update path to be relative to the root directory for frontend access
+                    $authorImagePath = str_replace("../", "", $authorImagePath);
+                }
+        
+                // Save ad details along with image paths
+                if (addFeaturedAd($title, $description, $adImagePath, $iconClass, $category, $location, $price, $authorImagePath, $authorName, $authorRole, $rating, $ratingCount, $timeAgo,)) {
+                    echo json_encode([
+                        'success' => true,
+                        'adImageUrl' => $adImagePath,
+                        'authorImageUrl' => $authorImagePath
+                    ]);
+                } else {
+                    echo json_encode(['success' => false, 'error' => 'Failed to submit ad']);
+                }
+            } else {
+                echo json_encode(['error' => 'Invalid request']);
+            }
+            break;
+
+            case 'fetchAdDetails': // New action to fetch ad details
+                if (isset($_GET['ad_id'])) {
+                    $ad_id = intval($_GET['ad_id']);
+                    header('Content-Type: application/json');
+                    $adDetails = $controller->getAdDetails($ad_id);
+                    
+                    if ($adDetails) {
+                        echo json_encode(['status' => 'success', 'data' => $adDetails]);
+                    } else {
+                        echo json_encode(['status' => 'error', 'message' => 'Ad not found']);
+                    }
+                } else {
+                    echo json_encode(['error' => 'No ad ID specified']);
                 }
                 break;
 
-        default:
-            echo json_encode(['error' => 'Invalid action']);
-            break;
+                case 'getAds':
+                    header('Content-Type: application/json');
+                    echo json_encode($controller->getFeaturedAds()); // Assuming this method returns all ads
+                    break;
+
+       
     }
 } else {
     echo json_encode(['error' => 'No action specified']);

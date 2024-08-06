@@ -98,39 +98,7 @@
                 <div class="row clearfix">
                     <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="default-sidebar category-sidebar">
-                            <div class="sidebar-search sidebar-widget">
-                                <div class="widget-title">
-                                    <h3>Search</h3>
-                                </div>
-                                <div class="widget-content">
-                                    <form action="https://azim.commonsupport.com/Clasifico/browse-ads-1.php" method="post" class="search-form">
-                                        <div class="form-group">
-                                            <input type="search" name="search-field" placeholder="Search Keyword..." required="">
-                                            <button type="submit"><i class="icon-2"></i></button>
-                                        </div>
-                                        <div class="form-group">
-                                            <i class="icon-3"></i>
-                                            <select class="wide">
-                                               <option data-display="Select Location">Select Location</option>
-                                               <option value="1">California</option>
-                                               <option value="2">New York</option>
-                                               <option value="3">Sun Francis</option>
-                                               <option value="4">Shicago</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <i class="icon-4"></i>
-                                            <select class="wide">
-                                               <option data-display="Select Category">Select Category</option>
-                                               <option value="1">Education</option>
-                                               <option value="2">Restaurant</option>
-                                               <option value="3">Real Estate</option>
-                                               <option value="4">Home Appliances</option>
-                                            </select>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            
                             <div class="sidebar-category sidebar-widget">
                                 <div class="widget-title">
                                     <h3>Category</h3>
@@ -160,24 +128,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="price-filter sidebar-widget">
-                                <div class="widget-title">
-                                    <h3>Pricing range</h3>
-                                </div>
-                                <div class="price-range">
-                                    <div class="row clearfix">
-                                        <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-                                            <input type="text" name="min_price" placeholder="Min">
-                                        </div>
-                                        <div class="col-lg-6 col-md-12 col-sm-12 form-group">
-                                            <input type="text" name="max_price" placeholder="Max">
-                                        </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12 form-group">
-                                            <button type="submit" class="theme-btn-one">Apply price</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-12 col-sm-12 content-side">

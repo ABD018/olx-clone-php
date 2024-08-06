@@ -1,89 +1,5 @@
-<?php
-session_start();
-require_once 'Models/func.php';
+<?php include 'userprofile.php' ?>
 
-// Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
-}
-
-// Get user details
-$user_id = $_SESSION['user_id'];
-$user = getUserById($user_id);
-
-if (!$user) {
-    header('Location: login.php');
-    exit();
-}
-
-// Handle profile update
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
-    $name = trim($_POST['name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
-
-    $errors = [];
-
-    if (empty($name)) {
-        $errors[] = 'Name is required.';
-    }
-    if (empty($email)) {
-        $errors[] = 'Email is required.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = 'Invalid email format.';
-    }
-
-    if (empty($errors)) {
-        $db = new Database();
-        $conn = $db->getConnection();
-
-        $sql = "UPDATE users SET name = ?, email = ? WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssi", $name, $email, $user_id);
-
-        if ($stmt->execute()) {
-            $message = 'Profile updated successfully!';
-        } else {
-            $errors[] = 'Error updating profile.';
-        }
-
-        $conn->close();
-    }
-}
-
-// Handle photo upload
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
-    $photo = $_FILES['profile-photo'];
-    $uploadDir = 'assets/images/profiles/';
-    $uploadFile = $uploadDir . basename($photo['name']);
-    $allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
-
-    if (in_array($photo['type'], $allowedTypes) && $photo['size'] <= 2 * 1024 * 1024) { // Limit size to 2MB
-        if (move_uploaded_file($photo['tmp_name'], $uploadFile)) {
-            $db = new Database();
-            $conn = $db->getConnection();
-
-            $sql = "UPDATE users SET profile_photo = ? WHERE id = ?";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("si", $uploadFile, $user_id);
-
-            if ($stmt->execute()) {
-                $user['profile_photo'] = $uploadFile; // Update user data to reflect new photo
-                $_SESSION['profile_photo'] = $uploadFile; // Save the photo path in session
-                $message = 'Profile photo updated successfully!';
-            } else {
-                $errors[] = 'Error updating profile photo.';
-            }
-
-            $conn->close();
-        } else {
-            $errors[] = 'Error uploading file.';
-        }
-    } else {
-        $errors[] = 'Invalid file type or file size too large.';
-    }
-}
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,7 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
     <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/js/profile.js" defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
     <style>
        body {
             font-family: 'Poppins', sans-serif;
@@ -240,10 +157,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
         .change-photo-btn {
             margin-top: 10px;
         }
+        .dropdown-menu {
+    display: none;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
     </style>
 </head>
 
 <body>
+
     <div id="wrapper">
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
@@ -261,7 +186,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <nav class="navbar">
-                <button class="btn" id="menu-toggle">Toggle Menu</button>
+                <button class="btn"><a href="index.php">Home</a></button>
             </nav>
 
             <div class="container-fluid">
@@ -309,30 +234,92 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
 
                 <div class="content-section" id="listings">
                     <h3>My Listings</h3>
-                    <div class="card-deck">
-                        <!-- Listing cards -->
-                        <div class="card border-0 shadow-sm">
-                            <img src="assets/images/listing1.jpg" class="card-img-top" alt="Listing 1">
-                            <div class="card-body">
-                                <h5 class="card-title">Listing Title</h5>
-                                <p class="card-text">Some description of the listing.</p>
-                            </div>
-                            <div class="card-footer border-0 bg-transparent">
-                                <small class="text-muted">Posted 3 mins ago</small>
-                            </div>
-                        </div>
-                        <div class="card border-0 shadow-sm">
-                            <img src="assets/images/listing2.jpg" class="card-img-top" alt="Listing 2">
-                            <div class="card-body">
-                                <h5 class="card-title">Listing Title</h5>
-                                <p class="card-text">Some description of the listing.</p>
-                            </div>
-                            <div class="card-footer border-0 bg-transparent">
-                                <small class="text-muted">Posted 10 mins ago</small>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitAdModal">
+        Submit New Ad
+    </button>
+    
+
+    <!-- Modal HTML code -->
+<div class="modal fade" id="submitAdModal" tabindex="-1" role="dialog" aria-labelledby="submitAdModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="submitAdModalLabel">Submit New Ad</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="submitAdForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="adTitle">Title</label>
+                        <input type="text" class="form-control" id="adTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adDescription">Description</label>
+                        <textarea class="form-control" id="adDescription" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="adImage">Choose Photo</label>
+                        <input type="file" class="form-control" id="adImage" accept="image/*" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="referenceImages">Reference Images (Min. 3, Max. 5)</label>
+                        <input type="file" class="form-control" id="referenceImages" name="referenceImages[]" accept="image/*" multiple required>
+                        <small class="form-text text-muted">Upload up to 5 photos. At least 3 are required.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="authorImage">Author Image</label>
+                        <input type="file" class="form-control" id="authorImage" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label for="authorName">Author Name</label>
+                        <input type="text" class="form-control" id="authorName" value="<?php echo htmlspecialchars($user['name']); ?>" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="authorRole">Author Role</label>
+                        <input type="text" class="form-control" id="authorRole" value="For Sell" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="adCategory">Category</label>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle form-control" type="button" id="adCategoryButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Select Category
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="adCategoryButton">
+                                <a class="dropdown-item" href="#" data-value="Property">Property</a>
+                                <a class="dropdown-item" href="#" data-value="Home Appliances">Home Appliances</a>
+                                <a class="dropdown-item" href="#" data-value="Electronics">Electronics</a>
+                                <a class="dropdown-item" href="#" data-value="Health & Beauty">Health & Beauty</a>
+                                <a class="dropdown-item" href="#" data-value="Automotive">Automotive</a>
+                                <a class="dropdown-item" href="#" data-value="Furnitures">Furnitures</a>
+                                <a class="dropdown-item" href="#" data-value="Real Estate">Real Estate</a>
                             </div>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="adLocation">Location</label>
+                        <input type="text" class="form-control" id="adLocation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adPrice">Price</label>
+                        <input type="number" class="form-control" id="adPrice" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+                    <div class="card-deck" id="listings-cards">
+                        
                 </div>
+                <!-- Modal for submitting new ads -->
+    
+
 
                 <div class="content-section" id="messages">
                     <h3>Messages</h3>
@@ -429,28 +416,38 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['profile-photo'])) {
                 document.getElementById("wrapper").classList.toggle("toggled");
             });
         });
+
+
+        document.getElementById('submitAdForm').addEventListener('submit', function(event) {
+    var referenceImages = document.getElementById('referenceImages').files;
+    if (referenceImages.length < 3) {
+        event.preventDefault();
+        alert('You must upload at least 3 reference images.');
+        return;
+    }
+    if (referenceImages.length > 5) {
+        event.preventDefault();
+        alert('You can upload a maximum of 5 reference images.');
+        return;
+    }
+});
+
+
+
     </script>
-    <script src="assets/js/jquery.js"></script>
     <script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/owl.js"></script>
-    <script src="assets/js/wow.js"></script>
-    <script src="assets/js/validation.js"></script>
-    <script src="assets/js/jquery.fancybox.js"></script>
-    <script src="assets/js/appear.js"></script>
-    <script src="assets/js/scrollbar.js"></script>
-    <script src="assets/js/jquery.nice-select.min.js"></script>
-    <script src="assets/js/ads.js"></script>
-    <script src="assets/js/testimonials.js"></script>
-    <script src="assets/js/ads_featured.js"></script>
-    <script src="assets/js/top_places.js"></script>
-    <script src="assets/js/news.js"></script>
+    <!-- <script src="assets/js/validation.js"></script> -->
+    <!-- <script src="assets/js/appear.js"></script> -->
+    <!-- <script src="assets/js/scrollbar.js"></script> -->
+    <!-- <script src="assets/js/ads_featured.js"></script> -->
     <script src="assets/js/categories.js"></script>
     <script src="assets/js/profile.js"></script>
-
-
-    <!-- main-js -->
-    <script src="assets/js/script.js"></script>
+    <!-- <script src="assets/js/jquery.min.js"></script> -->
+    <!-- <script src="assets/js/bootstrap.bundle.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+    <!-- <script src="assets/js/script.js"></script> -->
 </body>
 </html>
 
