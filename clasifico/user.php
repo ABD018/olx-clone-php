@@ -445,6 +445,7 @@
     <!-- <script src="assets/js/jquery.min.js"></script> -->
     <!-- <script src="assets/js/bootstrap.bundle.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     
     <!-- <script src="assets/js/script.js"></script> -->

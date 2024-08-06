@@ -40,7 +40,7 @@ class UserController {
     }
 
     public function submitAd($data) {
-        return submitAd($data);
+        return submitAd($data);      // abhishek gusain
     }
 
     public function getAdDetails($ad_id) {
@@ -227,6 +227,8 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+
+                //abhishek.....
                 case 'getAds':
                     header('Content-Type: application/json');
                     echo json_encode($controller->getFeaturedAds()); // Assuming this method returns all ads
