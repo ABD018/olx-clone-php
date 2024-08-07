@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-<title>Clasifico - HTML 5 Template Preview</title>
+<title>OLX - Ads Details</title>
 
 <!-- Fav Icon -->
 <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -33,6 +33,7 @@
 
 <!-- page wrapper -->
 <body>
+
 
     <div class="boxed_wrapper">
 
@@ -104,28 +105,21 @@
                                     <h3>Category</h3>
                                 </div>
                                 <div class="widget-content">
-                                    <ul class="category-list">
-                                        <li><a href="browse-ads-1.php" class="current">All</a></li>
+                                    <ul class="category-list" style="list-style: none; padding: 0; margin: 0;">
+                                        <!-- <li><a href="browse-ads-1.php" class="current">All</a></li>
                                         <li><a href="browse-ads-1.php">Air Condition</a></li>
-                                        <li class="dropdown">
+                                        <li>
                                             <a href="browse-ads-1.php">Electronics</a>
-                                            <ul>
-                                                <li><a href="browse-ads-1.php">Computers</a></li>
-                                                <li><a href="browse-ads-1.php">Phones</a></li>
-                                                <li><a href="browse-ads-1.php">Watches</a></li>
-                                            </ul>
+                                           
                                         </li>
                                         <li><a href="browse-ads-1.php">Furniture</a></li>
-                                        <li class="dropdown">
+                                        <li>
                                             <a href="browse-ads-1.php">Health & Beauty</a>
-                                            <ul>
-                                                <li><a href="browse-ads-1.php">Fitness</a></li>
-                                                <li><a href="browse-ads-1.php">Injuries</a></li>
-                                            </ul>
+                                           
                                         </li>
                                         <li><a href="browse-ads-1.php">Automotive</a></li>
                                         <li><a href="browse-ads-1.php">Real Estate</a></li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </div>
                             
@@ -135,16 +129,13 @@
                         <div class="category-details-content">
                             <div class="item-shorting clearfix">
                                 <div class="text pull-left">
-                                    <p><span>Search Reasults:</span> Showing 1-6 of 20 Listings</p>
+                                    <p><span>Search Results:</span> Showing 1-6 of 20 Listings</p>
                                 </div>
                                 <div class="right-column pull-right clearfix">
                                     <div class="select-box">
                                         <select class="wide">
                                            <option data-display="Sort by: Default">Sort by: Default</option>
-                                           <!-- <option value="1">Default Sort 01</option>
-                                           <option value="2">Default Sort 02</option>
-                                           <option value="3">Default Sort 03</option>
-                                           <option value="4">Default Sort 04</option> -->
+                                           
                                         </select>
                                     </div>
                                     <div class="menu-box">
@@ -155,480 +146,7 @@
                             </div>
                             <div class="category-block wrapper grid browse-add" id="featured-ads-container">
                                 <div class="list-item feature-style-three pd-0">
-                                    <!-- <div class="feature-block-one">
-                                        <div class="inner-box">
-                                            <div class="image-box">
-                                                <figure class="image"><img src="assets/images/resource/feature-15.jpg" alt=""></figure>
-                                                <div class="feature-2">Featured</div>
-                                            </div>
-                                            <div class="lower-content">
-                                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                <ul class="rating clearfix">
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><a href="index.php">(32)</a></li>
-                                                </ul>
-                                                <ul class="info clearfix">
-                                                    <li><i class="far fa-clock"></i>1 months ago</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                </ul>
-                                                <div class="lower-box">
-                                                    <h5><span>Start From:</span> $3,000.00</h5>
-                                                    <ul class="react-box">
-                                                        <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                        <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="btn-box"><a href="browse-ads-details.html" class="theme-btn-one">Details</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="feature-block-one">
-                                        <div class="inner-box">
-                                            <div class="image-box">
-                                                <figure class="image"><img src="assets/images/resource/feature-16.jpg" alt=""></figure>
-                                                <div class="feature-2">Featured</div>
-                                            </div>
-                                            <div class="lower-content">
-                                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                <ul class="rating clearfix">
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><a href="index.php">(25)</a></li>
-                                                </ul>
-                                                <ul class="info clearfix">
-                                                    <li><i class="far fa-clock"></i>2 months ago</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                </ul>
-                                                <div class="lower-box">
-                                                    <h5><span>Start From:</span> $2,000.00</h5>
-                                                    <ul class="react-box">
-                                                        <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                        <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="btn-box"><a href="browse-ads-details.html" class="theme-btn-one">Details</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="feature-block-one">
-                                        <div class="inner-box">
-                                            <div class="image-box">
-                                                <figure class="image"><img src="assets/images/resource/feature-17.jpg" alt=""></figure>
-                                                <div class="feature-2">Featured</div>
-                                            </div>
-                                            <div class="lower-content">
-                                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                <ul class="rating clearfix">
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><a href="index.php">(32)</a></li>
-                                                </ul>
-                                                <ul class="info clearfix">
-                                                    <li><i class="far fa-clock"></i>6 months ago</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                </ul>
-                                                <div class="lower-box">
-                                                    <h5><span>Start From:</span> $3,200.00</h5>
-                                                    <ul class="react-box">
-                                                        <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                        <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="btn-box"><a href="browse-ads-details.html" class="theme-btn-one">Details</a></div>
-                                        </div>
-                                    </div>
-                                    <div class="feature-block-one">
-                                        <div class="inner-box">
-                                            <div class="image-box">
-                                                <figure class="image"><img src="assets/images/resource/feature-18.jpg" alt=""></figure>
-                                                <div class="feature-2">Featured</div>
-                                            </div>
-                                            <div class="lower-content">
-                                                <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                <ul class="rating clearfix">
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><i class="icon-17"></i></li>
-                                                    <li><a href="index.php">(32)</a></li>
-                                                </ul>
-                                                <ul class="info clearfix">
-                                                    <li><i class="far fa-clock"></i>7 months ago</li>
-                                                    <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                </ul>
-                                                <div class="lower-box">
-                                                    <h5><span>Start From:</span> $3,500.00</h5>
-                                                    <ul class="react-box">
-                                                        <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                        <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="btn-box"><a href="browse-ads-details.html" class="theme-btn-one">Details</a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="grid-item feature-style-two four-column pd-0">
-                                    <div class="row clearfix">
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-7.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(32)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>1 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$3,000.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-8.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(25)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>2 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$2,000.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-9.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(40)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>3 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$3,500.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-10.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(28)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>4 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$3,000.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-11.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(15)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>5 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$1,800.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-12.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(32)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>6 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$3,200.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-13.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(32)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>7 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$3,500.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-14.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(30)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>8 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$3,300.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4 col-md-6 col-sm-12 feature-block">
-                                            <div class="feature-block-one">
-                                                <div class="inner-box">
-                                                    <div class="image-box">
-                                                        <figure class="image"><img src="assets/images/resource/feature-19.jpg" alt=""></figure>
-                                                        <div class="shape"></div>
-                                                        <div class="feature">Featured</div>
-                                                        <div class="icon">
-                                                            <div class="icon-shape"></div>
-                                                            <i class="icon-16"></i>
-                                                        </div>
-                                                    </div>
-                                                    <div class="lower-content">
-                                                        <div class="category"><i class="fas fa-tags"></i><p>Electronics</p></div>
-                                                        <h4><a href="browse-ads-details.html">Villa on Grand Avenue</a></h4>
-                                                        <ul class="rating clearfix">
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><i class="icon-17"></i></li>
-                                                            <li><a href="index.php">(29)</a></li>
-                                                        </ul>
-                                                        <ul class="info clearfix">
-                                                            <li><i class="far fa-clock"></i>9 months ago</li>
-                                                            <li><i class="fas fa-map-marker-alt"></i>G87P, Birmingham, UK</li>
-                                                        </ul>
-                                                        <div class="lower-box">
-                                                            <h5>$3,800.00</h5>
-                                                            <ul class="react-box">
-                                                                <li><a href="index.php"><i class="icon-21"></i></a></li>
-                                                                <li><a href="index.php"><i class="icon-22"></i></a></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                    
                                 </div>
                             </div>
                             <div class="pagination-wrapper centred">

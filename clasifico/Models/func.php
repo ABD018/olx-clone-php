@@ -143,6 +143,31 @@ function getFeaturedAdById($id) {
     return $ad;
 }
 
+function getAdsByCategory($categoryId) {
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    $categoryId = $conn->real_escape_string($categoryId);
+
+
+    $sql = "SELECT * FROM featured_ads WHERE category = '$categoryId' ORDER BY RAND() LIMIT 6";
+    $result = $conn->query($sql);
+
+    $ads = [];
+    while ($row = $result->fetch_assoc()) {
+        $ads[] = $row;
+    }
+
+    // Check the result of the query
+    error_log("Ads found: " . print_r($ads, true));
+
+    $conn->close();
+    return $ads;
+}
+
+
+
+
 function getUserById($userId) {
     $db = new Database();
     $conn = $db->getConnection();
