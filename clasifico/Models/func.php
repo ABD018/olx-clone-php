@@ -244,6 +244,4 @@ function getAdDetails($ad_id) {
 }
 
 
-
-
 ?>

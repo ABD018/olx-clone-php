@@ -42,7 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-
 //submit ad 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -60,39 +59,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
     });
-
-    // Function to format time
-    function timeAgo(timestamp) {
-        const now = new Date();
-        const date = new Date(timestamp * 1000); // Convert Unix timestamp to milliseconds
-        const seconds = Math.floor((now - date) / 1000);
-        const interval = Math.floor(seconds / 31536000); // years
-
-        if (interval > 1) return `${interval} years ago`;
-        if (interval === 1) return `1 year ago`;
-
-        const months = Math.floor(seconds / 2592000); // months
-        if (months > 1) return `${months} months ago`;
-        if (months === 1) return `1 month ago`;
-
-        const weeks = Math.floor(seconds / 604800); // weeks
-        if (weeks > 1) return `${weeks} weeks ago`;
-        if (weeks === 1) return `1 week ago`;
-
-        const days = Math.floor(seconds / 86400); // days
-        if (days > 1) return `${days} days ago`;
-        if (days === 1) return `1 day ago`;
-
-        const hours = Math.floor(seconds / 3600); // hours
-        if (hours > 1) return `${hours} hours ago`;
-        if (hours === 1) return `1 hour ago`;
-
-        const minutes = Math.floor(seconds / 60); // minutes
-        if (minutes > 1) return `${minutes} minutes ago`;
-        if (minutes === 1) return `1 minute ago`;
-
-        return `just now`;
-    }
 
     // Function to fetch and display ads
     function fetchAds() {
@@ -189,17 +155,17 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('authorName', authorName);
         formData.append('authorRole', authorRole);
 
-        console.log('Submitting form with data:', {
-            title: adTitle,
-            description: adDescription,
-            adImage: adImage ? adImage.name : null,
-            authorImage: authorImage ? authorImage.name : null,
-            category: selectedCategory,
-            location: adLocation,
-            price: adPrice,
-            authorName: authorName,
-            authorRole: authorRole
-        });
+        // console.log('Submitting form with data:', {
+        //     title: adTitle,
+        //     description: adDescription,
+        //     adImage: adImage ? adImage.name : null,
+        //     authorImage: authorImage ? authorImage.name : null,
+        //     category: selectedCategory,
+        //     location: adLocation,
+        //     price: adPrice,
+        //     authorName: authorName,
+        //     authorRole: authorRole
+        // });
 
         fetch('controller/userController.php?action=submitAd', {
             method: 'POST',
