@@ -1,18 +1,95 @@
 document.addEventListener("DOMContentLoaded", function() {
-    function fetchFeaturedAds() {
+    // Function to fetch and display categories
+    function fetchCategories() {
         var xhr = new XMLHttpRequest();
-        xhr.open("GET", "controller/userController.php?action=getFeaturedAds", true); // Adjust path if necessary
+        xhr.open("GET", "controller/userController.php?action=getCategories", true); // Adjust path if necessary
         xhr.onload = function() {
             if (xhr.status === 200) {
-                var featuredAds = JSON.parse(xhr.responseText);
-                displayFeaturedAds(featuredAds);
+                var categories = JSON.parse(xhr.responseText);
+                // console.log(categories)
+                displayCategories(categories);
             } else {
-                console.error('Error fetching featured ads:', xhr.statusText);
+                console.error('Error fetching categories:', xhr.statusText);
             }
         };
         xhr.send();
     }
 
+    // Function to display categories
+    function displayCategories(categories) {
+        var categoryList = document.querySelector('.category-list');
+        categoryList.innerHTML = ''; // Clear previous content
+
+        // Add 'All' category
+        var allCategory = document.createElement('li');
+        allCategory.innerHTML = '<a href="#" class="current" data-category="All">All</a>';
+        
+        categoryList.appendChild(allCategory);
+
+        categories.forEach(category => {
+            var categoryItem = document.createElement('li');
+            categoryItem.innerHTML = `<a href="#" data-category="${category.name}">${category.name}</a>`;
+            categoryList.appendChild(categoryItem);
+        });
+
+        // Add event listeners for category links
+        var categoryLinks = document.querySelectorAll('.category-list a');
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                var selectedCategory = this.getAttribute('data-category');
+                
+                fetchFeaturedAds(selectedCategory); // Fetch ads based on selected category
+                updateActiveCategory(this); // Update the active category style
+            });
+        });
+    }
+
+    // Function to update active category style
+    function updateActiveCategory(activeLink) {
+        var links = document.querySelectorAll('.category-list a');
+        links.forEach(link => {
+            link.classList.remove('current');
+        });
+        activeLink.classList.add('current');
+    }
+
+    // Function to fetch featured ads based on selected category
+    function fetchFeaturedAds(category) {
+
+        category = category=="All" ? null : category;
+        // console.log(category)
+    
+        // Construct URL based on category
+        var url = category ? 
+            `controller/userController.php?action=getAdsByCategory&category_id=${category}` : 
+            "controller/userController.php?action=getFeaturedAds";
+    
+        // Create a new XMLHttpRequest object
+        var xhr = new XMLHttpRequest();
+        
+        xhr.open("GET", url, true); // Adjust path if necessary
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                try {
+                    var featuredAds = JSON.parse(xhr.responseText);
+                    // console.log(featuredAds);
+                    displayFeaturedAds(featuredAds);
+                } catch (e) {
+                    console.error('Error parsing JSON:', e.message);
+                }
+            } else {
+                console.error('Error fetching featured ads:', xhr.statusText);
+            }
+        };
+        xhr.onerror = function() {
+            console.error('Network error occurred');
+        };
+        xhr.send();
+    }
+    
+
+    // Function to display featured ads
     function displayFeaturedAds(ads) {
         var container = document.getElementById('featured-ads-container');
         container.innerHTML = ''; // Clear previous content
@@ -48,10 +125,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <div class="lower-content" style="padding: 10px; display: flex; flex-direction: column; flex: 1;">
                         <div class="category" style="font-size: 14px; color: #666; margin-bottom: 10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-tags"></i><p>${ad.category}</p></div>
                         <h4 style="font-size: 16px; margin: 10px 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="browse-ads-details.php?id=${ad.id}">${ad.title}</a></h4>
-                        <ul class="rating clearfix" style="list-style: none; padding: 0; margin: 0;">
-                            ${'<li><i class="${ad.icon_class}"></i></li>'.repeat(ad.rating)}
-                            <li><a href="index.php">(${ad.rating_count})</a></li>
-                        </ul>
+                        
                         <ul class="info clearfix" style="list-style: none; padding: 0; margin: 0;">
                             <li style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="far fa-clock"></i>${ad.time_ago}</li>
                             <li style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><i class="fas fa-map-marker-alt"></i>${ad.location}</li>
@@ -64,12 +138,16 @@ document.addEventListener("DOMContentLoaded", function() {
                         </div>
                     </div>
                     <div class="btn-box" style="margin-top: 10px; text-align: right;">
-                        <a href="browse-ads-details.php" class="theme-btn-one" style="margin-right: 120px; margin-bottom: 10px;">Details</a>
+                        <a href="browse-ads-details.php?id=${ad.id}" class="theme-btn-one" style="margin-right: 120px; margin-bottom: 10px;">Details</a>
                     </div>
                 </div>`;
             container.appendChild(adElement);
         });
     }
 
-    fetchFeaturedAds();
+    // Fetch categories on page load
+    fetchCategories();
+    
+    // Fetch featured ads for all categories on page load
+    fetchFeaturedAds('');
 });

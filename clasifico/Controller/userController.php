@@ -30,6 +30,11 @@ class UserController {
     public function getFeaturedAdById($id) {
         return getFeaturedAdById($id);
     }
+    
+    public function getAdsByCategory($categoryId) {
+        return getAdsByCategory($categoryId);
+    }
+    
 
     public function fetchProfile($userId) {
         return getUserById($userId);
@@ -91,6 +96,18 @@ if (isset($_GET['action'])) {
                 echo json_encode(['error' => 'No ad ID specified']);
             }
             break;
+
+            case 'getAdsByCategory':
+                if (isset($_GET['category_id'])) {
+                    $categoryId = $_GET['category_id'];
+                    header('Content-Type: application/json');
+                    // echo json_encode($categoryId);
+                    echo json_encode($controller->getAdsByCategory($categoryId));
+                } else {
+                    echo json_encode(['error' => 'No category ID specified']);
+                }
+                break;
+            
 
         case 'fetchProfile':
             $userId = $_SESSION['user_id'];

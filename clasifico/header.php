@@ -24,10 +24,7 @@ $isLoggedIn = isset($_SESSION['user_id']); // Assuming 'user_id' is set when the
                             <ul class="navigation clearfix">
                                 <li class="current"><a href="index.php">Home</a></li>
                                 <li><a href="category.php">Categories</a></li>  
-                                <li class="dropdown"><a href="browse-ads-1.php">Browse Ads</a>
-                                    <ul>
-                                        <li><a href="browse-ads-details.php">Browse Ads Details</a></li> 
-                                    </ul>
+                                <li><a href="browse-ads-1.php">Browse Ads</a>
                                 </li> 
                                 <li class="dropdown"><a href="#">Pages</a>
                                     <ul>
