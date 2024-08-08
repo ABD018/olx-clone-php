@@ -49,7 +49,11 @@ $isLoggedIn = isset($_SESSION['user_id']); // Assuming 'user_id' is set when the
                     </nav>
                 </div>
                 <div class="btn-box">
-                    <a href="browse-ads-details.php" class="theme-btn-one"><i class="icon-1"></i>Submit Ads</a>
+                    <?php if($isLoggedIn): ?>
+                    <a href="user.php#listings" class="theme-btn-one"><i class="icon-1"></i>Submit Ads</a>
+                    <?php else : ?>
+                        <a href="login.php" class="theme-btn-one"><i class="icon-1"></i>Submit Ads</a>
+                        <?php endif; ?>
                 </div>
             </div>
         </div>

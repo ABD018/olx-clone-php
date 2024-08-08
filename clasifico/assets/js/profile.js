@@ -8,6 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data) {
                 document.getElementById('name').value = data.name || '';
                 document.getElementById('email').value = data.email || '';
+                document.getElementById('address').value = data.address || '';
+                document.getElementById('phone_number').value = data.phone || '';
             }
         })
         .catch(error => console.error('Error fetching profile:', error));
@@ -18,11 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const phone = document.getElementById('phone_number').value.trim();
 
         const formData = new FormData();
         formData.append('name', name);
         formData.append('email', email);
         formData.append('password', password);
+        formData.append('address', address);
+        formData.append('phone_number', phone);
 
         fetch('controller/userController.php?action=updateProfile', {
             method: 'POST',
@@ -45,7 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
 //submit ad 
 
 document.addEventListener('DOMContentLoaded', function() {
+    const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
     const submitAdForm = document.getElementById('submitAdForm');
+    const fileInput = document.getElementById('reference_images');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
     const categoryButton = document.getElementById('adCategoryButton');
     const categoryDropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
     let selectedCategory = '';
@@ -128,11 +138,91 @@ document.addEventListener('DOMContentLoaded', function() {
  
     // Fetch ads when the page loads
     fetchAds();
-    
+
+     // Sidebar toggle function
+     function toggleSidebar() {
+        document.querySelector('.sidebar').classList.toggle('collapsed');
+        document.querySelector('.content').classList.toggle('expanded');
+    }
+
+    // Add click event to sidebar links
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+
+            // Remove active class from all links
+            sidebarLinks.forEach(link => link.classList.remove('active'));
+
+            // Add active class to the clicked link
+            this.classList.add('active');
+
+            // Hide all content sections
+            contentSections.forEach(section => section.style.display = 'none');
+
+            // Show the selected content section
+            const targetSection = document.querySelector(this.getAttribute('href'));
+            targetSection.style.display = 'block';
+        });
+    });
+
+    // Show the default section (Profile section)
+    const defaultSection = document.querySelector('.sidebar .nav-link.active');
+    if (defaultSection) {
+        const targetSection = document.querySelector(defaultSection.getAttribute('href'));
+        targetSection.style.display = 'block';
+    }
+
+
+
+    // Handle image selection and preview
+    fileInput.addEventListener('change', function() {
+         const files = this.files;
+
+        // Loop through each selected file and display the preview
+        for (const file of files) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                // Create a new image element for the preview
+                const imgElement = document.createElement('img');
+                imgElement.src = e.target.result;
+                imgElement.style.width = '100px'; // Set width as desired
+                imgElement.style.marginRight = '10px'; // Add some spacing between images
+                imgElement.style.marginBottom = '10px'; // Add some spacing between rows
+
+                // Append the new image to the preview container
+                imagePreviewContainer.appendChild(imgElement);
+            };
+
+            // Read the file as a Data URL
+            reader.readAsDataURL(file);
+        }
+    });
+
+
+    // Handle image removal
+    // imagePreviewContainer.addEventListener('click', function(e) {
+    //     if (e.target.classList.contains('remove-image-btn')) {
+    //         const index = e.target.getAttribute('data-index');
+    //         let files = Array.from(fileInput.files);
+    //         files.splice(index, 1); // Remove the selected image
+    //         const dataTransfer = new DataTransfer();
+    //         files.forEach(file => dataTransfer.items.add(file));
+    //         fileInput.files = dataTransfer.files;
+
+    //         // Re-trigger the change event to update the preview
+    //         fileInput.dispatchEvent(new Event('change'));
+    //     }
+    // });
 
     submitAdForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
+      const files = fileInput.files;
+        if (files.length < 3 || files.length > 5) {
+            
+            alert('Please upload between 3 and 5 reference images.');
+        }
         const adTitle = document.getElementById('adTitle').value.trim();
         const adDescription = document.getElementById('adDescription').value.trim();
         const adImage = document.getElementById('adImage').files[0];
