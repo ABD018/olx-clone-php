@@ -56,6 +56,7 @@ class UserController {
 
 $controller = new UserController();
 
+
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'getCategories':

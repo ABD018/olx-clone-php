@@ -219,6 +219,8 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
 
       const files = fileInput.files;
+      console.log('Files before submission:', files); // Debugging statement
+
         if (files.length < 3 || files.length > 5) {
             
             alert('Please upload between 3 and 5 reference images.');
@@ -244,6 +246,9 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('price', adPrice);
         formData.append('authorName', authorName);
         formData.append('authorRole', authorRole);
+        for (const file of files) {
+            formData.append('reference_images[]', file);
+        }
 
         // console.log('Submitting form with data:', {
         //     title: adTitle,

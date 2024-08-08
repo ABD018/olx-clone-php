@@ -277,6 +277,26 @@ function submitAd($data) {
         return false;
     }
 }
+function getAllFeaturedAds() {
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    $sql = "SELECT * FROM featured_ads";
+    $result = $conn->query($sql);
+
+    if ($result === false) {
+        $conn->close();
+        return ['error' => 'Query failed: ' . $conn->error];
+    }
+
+    $ads = [];
+    while ($row = $result->fetch_assoc()) {
+        $ads[] = $row;
+    }
+
+    $conn->close();
+    return $ads;
+}
 
 
 ?>

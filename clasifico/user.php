@@ -1,4 +1,10 @@
-<?php include 'userprofile.php' ?>
+<?php include 'userprofile.php';
+require_once './Models/func.php';
+
+// Fetch all featured ads
+$ads = getAllFeaturedAds();
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -437,8 +443,48 @@
                 <div class="content-section" id="listings">
                     <h3>My Listings</h3>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#submitAdModal">
+
         Submit New Ad
     </button>
+
+      <!-- Display ads in a table -->
+      <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Location</th>
+                <th>Image</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (!empty($ads)): ?>
+                <?php $serialNo = 1; ?>
+                <?php foreach ($ads as $ad): ?>
+                    <tr>
+                        <td><?php echo $serialNo++; ?></td>
+                        <td><?php echo htmlspecialchars($ad['title']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['description']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['price']); ?></td>
+                        <td><?php echo htmlspecialchars($ad['location']); ?></td>
+                        <td><img src="assets/uploads/ads/<?php echo htmlspecialchars($ad['image']); ?>" alt="Ad Image" style="width: 100px; height: 100px; object-fit: cover;"></td>
+                        <td>
+                            <a href="edit_ad.php?id=<?php echo htmlspecialchars($ad['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="delete_ad.php?id=<?php echo htmlspecialchars($ad['id']); ?>" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="7">No ads found.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</div>
     
 
     <!-- Modal HTML code -->
@@ -478,7 +524,7 @@
                      
 <div class="form-group">
     <label for="reference_images">Reference Images (min 3, max 5)</label>
-    <input type="file" name="reference_images[]" id="reference_images" class="form-control-file" multiple required>
+    <input type="file" name="reference_images[]" id="reference_images" multiple>
     <div class="image-preview" id="imagePreviewContainer"></div>
 
     <small class="form-text text-muted">You can select up to 5 images.</small>
@@ -632,20 +678,6 @@
             });
         });
 
-
-        document.getElementById('submitAdForm').addEventListener('submit', function(event) {
-    var referenceImages = document.getElementById('referenceImages').files;
-    if (referenceImages.length < 3) {
-        event.preventDefault();
-        alert('You must upload at least 3 reference images.');
-        return;
-    }
-    if (referenceImages.length > 5) {
-        event.preventDefault();
-        alert('You can upload a maximum of 5 reference images.');
-        return;
-    }
-});
 
     </script>
     <script src="assets/js/popper.min.js"></script>
