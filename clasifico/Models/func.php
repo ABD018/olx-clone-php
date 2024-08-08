@@ -222,7 +222,7 @@ function addFeaturedAd($title, $description, $adImage, $iconClass, $category, $l
     $conn->close();
 
     return $success;
-}
+} 
 
 
 // func.php
