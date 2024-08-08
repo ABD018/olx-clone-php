@@ -10,38 +10,6 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <style>
-       /* Add this CSS to your stylesheet */
-#imagePreviewContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Space between images */
-}
-
-.image-container {
-    position: relative;
-    display: inline-block; /* Allows images to sit side by side */
-}
-
-.image-container img {
-    display: block;
-    width: 100px; /* Adjust as needed */
-    height: 100px; /* Adjust as needed */
-    object-fit: cover;
-}
-
-.remove-button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 2px 5px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 14px; /* Adjust size as needed */
-}
-
-
        body {
     font-family: 'Poppins', sans-serif;
     margin: 0;
@@ -412,14 +380,6 @@
                                     <label for="email">Email</label>
                                     <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>">
                                 </div>
-                                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" value="<?php echo htmlspecialchars($user['address']); ?>">
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="text" id="phone_number" name="phone" value="<?php echo htmlspecialchars($user['phone_number']); ?>">
-                </div>
                                 <button type="submit" name="update_profile" class="btn btn-primary">Update Profile</button>
                             </form>
                         </div>
@@ -467,26 +427,15 @@
                         <label for="adImage">Cover Photo</label>
                         <input type="file" class="form-control-file" id="adImage" accept="image/*" required>
                     </div>
-                    <!-- <div class="form-group">
+                    <div class="form-group">
                         <label for="referenceImages">Reference Images (Min. 3, Max. 5)</label>
                         <input type="file" class="form-control-file" id="referenceImages" name="referenceImages[]" accept="image/*" multiple required>
                         <small class="form-text text-muted">Upload up to 5 photos. At least 3 are required.</small>
                         <div class="image-preview" id="imagePreview"></div>
-                    </div> -->
-
-                    <!-- Reference Images Input -->
-                     
-<div class="form-group">
-    <label for="reference_images">Reference Images (min 3, max 5)</label>
-    <input type="file" name="reference_images[]" id="reference_images" class="form-control-file" multiple required>
-    <div class="image-preview" id="imagePreviewContainer"></div>
-
-    <small class="form-text text-muted">You can select up to 5 images.</small>
-</div>
-
+                    </div>
                     <div class="form-group">
                         <label for="authorImage">Author Image</label>
-                        <input type="file" class="form-control-file" id="authorImage" accept="image/*" value="<?php echo htmlspecialchars($user['author_image']); ?>" readonly>
+                        <input type="file" class="form-control-file" id="authorImage" accept="image/*">
                     </div>
                     <div class="form-group">
                         <label for="authorName">Author Name</label>
@@ -508,7 +457,7 @@
                                 <a class="dropdown-item" href="#" data-value="Electronics">Electronics</a>
                                 <a class="dropdown-item" href="#" data-value="Health & Beauty">Health & Beauty</a>
                                 <a class="dropdown-item" href="#" data-value="Automotive">Automotive</a>
-                                <a class="dropdown-item" href="#" data-value="Furnitures">Furnitures</a>
+                                <a class="dropdown-item" href="#" data-value="Furniture">Furniture</a>
                                 <a class="dropdown-item" href="#" data-value="Real Estate">Real Estate</a>
                             </div>
                         </div>
@@ -527,6 +476,8 @@
         </div>
     </div>
 </div>
+
+
 
                     <div class="card-deck" id="listings-cards">
                         
@@ -567,7 +518,6 @@
         </div>
         <!-- /#page-content-wrapper -->
     </div>
-    
     <!-- /#wrapper -->
 
     <!-- Custom JS -->

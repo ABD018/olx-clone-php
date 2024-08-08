@@ -40,18 +40,17 @@ class UserController {
         return getUserById($userId);
     }
 
-    public function updateProfile($userId, $name, $email, $password, $phone, $address) {
-        return updateUserProfile($userId, $name, $email, $password, $phone, $address);
+    public function updateProfile($userId, $name, $email, $password) {
+        return updateUserProfile($userId, $name, $email, $password);
     }
 
     public function submitAd($data) {
-        return submitAd($data);      
+        return submitAd($data);      // abhishek gusain
     }
 
     public function getAdDetails($ad_id) {
         return getAdDetails($ad_id);
     }
-
 }
 
 $controller = new UserController();
@@ -121,10 +120,8 @@ if (isset($_GET['action'])) {
             $name = $_POST['name'] ?? '';
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
-            $phone = $_POST['phone_number'] ?? '';
-            $address = $_POST['address'] ?? '';
 
-            if ($controller->updateProfile($userId, $name, $email, $password, $phone, $address)) {
+            if ($controller->updateProfile($userId, $name, $email, $password)) {
                 echo json_encode(['success' => true]);
             } else {
                 echo json_encode(['success' => false, 'error' => 'Update failed']);
@@ -248,7 +245,7 @@ if (isset($_GET['action'])) {
                 break;
 
 
-                
+                //abhishek.....
                 case 'getAds':
                     header('Content-Type: application/json');
                     echo json_encode($controller->getFeaturedAds()); // Assuming this method returns all ads
