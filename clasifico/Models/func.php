@@ -172,7 +172,7 @@ function getUserById($userId) {
     $db = new Database();
     $conn = $db->getConnection();
 
-    $stmt = $conn->prepare("SELECT id, name, email, profile_photo, phone_number, address FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, name, email, profile_photo FROM users WHERE id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -184,15 +184,15 @@ function getUserById($userId) {
     return $user;
 }
 
-function updateUserProfile($userId, $name, $email, $password, $phone_number, $address) {
+function updateUserProfile($userId, $name, $email, $password) {
     $db = new Database();
     $conn = $db->getConnection();
 
     // Password hashing
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, password = ?, phone_number = ?, address = ? WHERE id = ?");
-    $stmt->bind_param("sssssi", $name, $email, $hashedPassword, $phone_number, $address, $userId);
+    $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?");
+    $stmt->bind_param("sssi", $name, $email, $hashedPassword, $userId);
     
     $success = $stmt->execute();
 
@@ -225,6 +225,8 @@ function addFeaturedAd($title, $description, $adImage, $iconClass, $category, $l
 }
 
 
+// func.php
+
 function getAdDetails($ad_id) {
     global $conn; // Assuming you have a database connection stored in $conn
 
@@ -238,43 +240,6 @@ function getAdDetails($ad_id) {
         return $result->fetch_assoc();
     } else {
         return null;
-    }
-}
-
-function submitAd($data) {
-    // Assuming you have a database connection in $conn (update this according to your connection variable)
-    global $conn;
-
-    $title = $data['title'];
-    $description = $data['description'];
-    $category = $data['category'];
-    $location = $data['location'];
-    $price = $data['price'];
-    $adImagePath = $data['adImagePath'];
-    $authorImagePath = $data['authorImagePath'];
-    $authorName = $data['authorName'];
-    $authorRole = $data['authorRole'];
-    $iconClass = $data['iconClass'];
-    $rating = $data['rating'];
-    $ratingCount = $data['ratingCount'];
-    $timeAgo = $data['timeAgo'];
-
-    // SQL query to insert the ad details into the database
-    $sql = "INSERT INTO featured_ads (title, description, image, icon_class, category, location, price, author_image, author_name, author_role, rating, rating_count, time_ago)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind parameters to the query
-        $stmt->bind_param("ssssssdsssiii", $title, $description, $adImagePath, $iconClass, $category, $location, $price, $authorImagePath, $authorName, $authorRole, $rating, $ratingCount, $timeAgo);
-
-        // Execute the query
-        if ($stmt->execute()) {
-            return true;
-        } else {
-            return false;
-        }
-    } else {
-        return false;
     }
 }
 
