@@ -95,15 +95,16 @@ if (isset($_GET['action'])) {
             echo json_encode($controller->login($_POST));
             break;
 
-        case 'getFeaturedAdById':
-            if (isset($_GET['id'])) {
-                $id = intval($_GET['id']);
-                header('Content-Type: application/json');
-                echo json_encode($controller->getFeaturedAdById($id));
-            } else {
-                echo json_encode(['error' => 'No ad ID specified']);
-            }
-            break;
+            case 'getFeaturedAdByUserId':
+                if (isset($_GET['user_id'])) {
+                    $userId = intval($_GET['user_id']);
+                    header('Content-Type: application/json');
+                    echo json_encode($controller->getFeaturedAdByUserId($userId));
+                } else {
+                    echo json_encode(['error' => 'No user ID specified']);
+                }
+                break;
+            
 
             case 'getAdsByCategory':
                 if (isset($_GET['category_id'])) {

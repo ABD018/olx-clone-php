@@ -128,20 +128,26 @@ function login($data) {
     }
 }
 
-function getFeaturedAdById($id) {
+function getFeaturedAdByUserId($userId) {
     $db = new Database();
     $conn = $db->getConnection();
 
-    $id = $conn->real_escape_string($id);
-
-    $sql = "SELECT * FROM featured_ads WHERE id = $id";
-    $result = $conn->query($sql);
-
-    $ad = $result->fetch_assoc();
+    // Use prepared statements to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM featured_ads WHERE user_id = ?");
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
     
+    $ads = [];
+    while ($row = $result->fetch_assoc()) {
+        $ads[] = $row;
+    }    
+    $stmt->close();
     $conn->close();
-    return $ad;
+    return $ads;
 }
+
+
 
 function getAdsByCategory($categoryId) {
     $db = new Database();
