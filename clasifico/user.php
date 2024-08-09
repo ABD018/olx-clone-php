@@ -7,7 +7,7 @@ if (isset($_SESSION['user_id'])) {
     $user_id = $_SESSION['user_id'];
 
     // Fetch featured ads for the specific user
-    $ads = getFeaturedAdById($user_id);
+    $ads = getFeaturedAdByUserId($user_id);
 } else {
     // Handle the case where the user ID is not available in the session
     $ads = []; // Empty array, no ads to show
@@ -476,7 +476,10 @@ if (isset($_SESSION['user_id'])) {
                         <td><?php echo htmlspecialchars($ad['description']); ?></td>
                         <td><?php echo htmlspecialchars($ad['price']); ?></td>
                         <td><?php echo htmlspecialchars($ad['location']); ?></td>
-                        <td><img src="assets/images/ads/<?php echo htmlspecialchars($ad['image']); ?>" alt="Ad Image" style="width: 100px; height: 100px; object-fit: cover;"></td>
+                        <td>
+    <img src="<?php echo htmlspecialchars($ad['image']); ?>" alt="Ad Image" style="width: 100px; height: 100px; object-fit: cover;">
+</td>
+
                         <td>
                             <a href="edit_ad.php?id=<?php echo htmlspecialchars($ad['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
                             <a href="delete_ad.php?id=<?php echo htmlspecialchars($ad['id']); ?>" class="btn btn-danger btn-sm">Delete</a>
