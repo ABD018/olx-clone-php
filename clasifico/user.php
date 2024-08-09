@@ -2,7 +2,16 @@
 require_once './Models/func.php';
 
 // Fetch all featured ads
-$ads = getAllFeaturedAds();
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+
+    // Fetch featured ads for the specific user
+    $ads = getFeaturedAdById($user_id);
+} else {
+    // Handle the case where the user ID is not available in the session
+    $ads = []; // Empty array, no ads to show
+    // Optionally, you can redirect the user to the login page or show an error message
+}
 
 ?>
 
@@ -470,7 +479,7 @@ $ads = getAllFeaturedAds();
                         <td><?php echo htmlspecialchars($ad['description']); ?></td>
                         <td><?php echo htmlspecialchars($ad['price']); ?></td>
                         <td><?php echo htmlspecialchars($ad['location']); ?></td>
-                        <td><img src="assets/uploads/ads/<?php echo htmlspecialchars($ad['image']); ?>" alt="Ad Image" style="width: 100px; height: 100px; object-fit: cover;"></td>
+                        <td><img src="assets/images/ads/<?php echo htmlspecialchars($ad['image']); ?>" alt="Ad Image" style="width: 100px; height: 100px; object-fit: cover;"></td>
                         <td>
                             <a href="edit_ad.php?id=<?php echo htmlspecialchars($ad['id']); ?>" class="btn btn-warning btn-sm">Edit</a>
                             <a href="delete_ad.php?id=<?php echo htmlspecialchars($ad['id']); ?>" class="btn btn-danger btn-sm">Delete</a>
@@ -513,13 +522,6 @@ $ads = getAllFeaturedAds();
                         <label for="adImage">Cover Photo</label>
                         <input type="file" class="form-control-file" id="adImage" accept="image/*" required>
                     </div>
-                    <!-- <div class="form-group">
-                        <label for="referenceImages">Reference Images (Min. 3, Max. 5)</label>
-                        <input type="file" class="form-control-file" id="referenceImages" name="referenceImages[]" accept="image/*" multiple required>
-                        <small class="form-text text-muted">Upload up to 5 photos. At least 3 are required.</small>
-                        <div class="image-preview" id="imagePreview"></div>
-                    </div> -->
-
                     <!-- Reference Images Input -->
                      
 <div class="form-group">
@@ -529,6 +531,7 @@ $ads = getAllFeaturedAds();
 
     <small class="form-text text-muted">You can select up to 5 images.</small>
 </div>
+<input type="hidden" id="selectedFilesData" name="selectedFilesData" value="">
 
                     <div class="form-group">
                         <label for="authorImage">Author Image</label>
