@@ -114,7 +114,7 @@
 
 
         <!-- feature-style-two -->
-        <section class="feature-style">
+        <section class="feature-style-two">
             <div class="auto-container">
                 <div class="sec-title centred">
                     <span>Features</span>

@@ -1,3 +1,4 @@
+
 <?php include 'userprofile.php';
 require_once './Models/func.php';
 
@@ -10,7 +11,6 @@ if (isset($_SESSION['user_id'])) {
 } else {
     // Handle the case where the user ID is not available in the session
     $ads = []; // Empty array, no ads to show
-    // Optionally, you can redirect the user to the login page or show an error message
 }
 
 ?>
@@ -55,7 +55,6 @@ if (isset($_SESSION['user_id'])) {
     cursor: pointer;
     font-size: 14px; /* Adjust size as needed */
 }
-
 
        body {
     font-family: 'Poppins', sans-serif;
@@ -348,7 +347,6 @@ if (isset($_SESSION['user_id'])) {
     background: #ddd;
 }
 
-
 .navbar .btn {
     background-color: #007bff;
     color: white;
@@ -371,7 +369,6 @@ if (isset($_SESSION['user_id'])) {
     color: white;
     text-decoration: underline;
 }
-
 
     </style>
 </head>
@@ -583,7 +580,6 @@ if (isset($_SESSION['user_id'])) {
                 <!-- Modal for submitting new ads -->
     
 
-
                 <div class="content-section" id="messages">
                     <h3>Messages</h3>
                     <div class="list-group">
@@ -681,7 +677,6 @@ if (isset($_SESSION['user_id'])) {
             });
         });
 
-
     </script>
     <script src="assets/js/popper.min.js"></script>
     <!-- <script src="assets/js/validation.js"></script> -->
@@ -699,4 +694,3 @@ if (isset($_SESSION['user_id'])) {
     <!-- <script src="assets/js/script.js"></script> -->
 </body>
 </html>
-

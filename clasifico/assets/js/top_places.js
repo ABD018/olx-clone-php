@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <figure class="image-box"><img src="${place.image}" alt="${place.name}"></figure>
                         <div class="lower-content">
                             <div class="inner">
-                                <h3><a href="index.php">${place.name}</a></h3>
+                                <h3><a href="index.html">${place.name}</a></h3>
                                 <span>${place.listing_count} Listing</span>
                             </div>
                         </div>

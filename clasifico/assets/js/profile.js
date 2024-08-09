@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const profileForm = document.querySelector('#profile-form');
 
@@ -47,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
 //submit ad 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedCategory = this.getAttribute('data-value');
             categoryButton.textContent = selectedCategory;
         });
+        
     });
 
     // Function to fetch and display ads
@@ -173,95 +174,93 @@ document.addEventListener('DOMContentLoaded', function() {
         targetSection.style.display = 'block';
     }
 
-
-
-    // Handle image selection and preview
-    fileInput.addEventListener('change', function() {
-        const files = Array.from(this.files); // Convert FileList to Array
-        selectedFiles = [...selectedFiles, ...files]; // Append new files to the existing array
-        console.log(selectedFiles);
-        // Update hidden input with base64 data for each selected file
-        const fileDataArray = [];
-        selectedFiles.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                fileDataArray.push(e.target.result);
-                // Update the hidden input field
-                selectedFilesData.value = JSON.stringify(fileDataArray);
-                
-                // Display the image previews
-                imagePreviewContainer.innerHTML = '';
-                fileDataArray.forEach(dataUrl => {
-                    const imgElement = document.createElement('img');
-                    imgElement.src = dataUrl;
-                    imgElement.style.width = '100px';
-                    imgElement.style.marginRight = '10px';
-                    imgElement.style.marginBottom = '10px';
-                    imagePreviewContainer.appendChild(imgElement);
-                });
-            };
-            reader.readAsDataURL(file);
-        });
-    });
-
-    submitAdForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        console.log('Files before submission:', selectedFiles); // Debugging statement
-        if (selectedFiles.length < 3 || selectedFiles.length > 5) {
-            alert('Please upload between 3 and 5 reference images.');
-            return;
-        }
-
-        const adTitle = document.getElementById('adTitle').value.trim();
-        const adDescription = document.getElementById('adDescription').value.trim();
-        const adImage = document.getElementById('adImage').files[0];
-        const authorImage = document.getElementById('authorImage') ? document.getElementById('authorImage').files[0] : null;
-        const adLocation = document.getElementById('adLocation').value.trim();
-        const adPrice = document.getElementById('adPrice').value.trim();
-        const authorName = document.getElementById('authorName') ? document.getElementById('authorName').value.trim() : '';
-        const authorRole = document.getElementById('authorRole') ? document.getElementById('authorRole').value.trim() : '';
-
-        const formData = new FormData();
-        formData.append('title', adTitle);
-        formData.append('description', adDescription);
-        formData.append('adImage', adImage);
-        formData.append('authorImage', authorImage);
-        formData.append('category', selectedCategory);
-        formData.append('location', adLocation);
-        formData.append('price', adPrice);
-        formData.append('authorName', authorName);
-        formData.append('authorRole', authorRole)
-        // Append each file to the FormData object
-        selectedFiles.forEach(file => {
-            formData.append('reference_images[]', file);
-        });
-
-
-fetch('controller/userController.php?action=submitAd', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.text()) // Convert response to text
-.then(text => {
-    try {
-        
-        console.log(text);
-        const data = JSON.parse(text); // Attempt to parse JSON
-      
-        if (data.success) {
-            alert('Ad submitted successfully');
-            submitAdForm.reset();
-            // imagePreviewContainer.innerHTML = '';
-            // selectedFiles = [];
-            //selectedFilesData.value = '';
-        } else {
-            alert(data.error || 'Submission failed');
-        }
-    } catch (e) {
-        console.error('Error parsing JSON:', e);
-        alert('An unexpected error occurred. Please try again.');
-    }
-})
-.catch(error => console.error('Error submitting ad:', error));
+ // Handle image selection and preview
+ fileInput.addEventListener('change', function() {
+    const files = Array.from(this.files); // Convert FileList to Array
+    selectedFiles = [...selectedFiles, ...files]; // Append new files to the existing array
+    console.log(selectedFiles);
+    // Update hidden input with base64 data for each selected file
+    const fileDataArray = [];
+    selectedFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            fileDataArray.push(e.target.result);
+            // Update the hidden input field
+            selectedFilesData.value = JSON.stringify(fileDataArray);
+            
+            // Display the image previews
+            imagePreviewContainer.innerHTML = '';
+            fileDataArray.forEach(dataUrl => {
+                const imgElement = document.createElement('img');
+                imgElement.src = dataUrl;
+                imgElement.style.width = '100px';
+                imgElement.style.marginRight = '10px';
+                imgElement.style.marginBottom = '10px';
+                imagePreviewContainer.appendChild(imgElement);
+            });
+        };
+        reader.readAsDataURL(file);
     });
 });
+
+submitAdForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Files before submission:', selectedFiles); // Debugging statement
+    if (selectedFiles.length < 3 || selectedFiles.length > 5) {
+        alert('Please upload between 3 and 5 reference images.');
+        return;
+    }
+
+    const adTitle = document.getElementById('adTitle').value.trim();
+    const adDescription = document.getElementById('adDescription').value.trim();
+    const adImage = document.getElementById('adImage').files[0];
+    const authorImage = document.getElementById('authorImage') ? document.getElementById('authorImage').files[0] : null;
+    const adLocation = document.getElementById('adLocation').value.trim();
+    const adPrice = document.getElementById('adPrice').value.trim();
+    const authorName = document.getElementById('authorName') ? document.getElementById('authorName').value.trim() : '';
+    const authorRole = document.getElementById('authorRole') ? document.getElementById('authorRole').value.trim() : '';
+
+    const formData = new FormData();
+    formData.append('title', adTitle);
+    formData.append('description', adDescription);
+    formData.append('adImage', adImage);
+    formData.append('authorImage', authorImage);
+    formData.append('category', selectedCategory);
+    formData.append('location', adLocation);
+    formData.append('price', adPrice);
+    formData.append('authorName', authorName);
+    formData.append('authorRole', authorRole)
+    // Append each file to the FormData object
+    selectedFiles.forEach(file => {
+        formData.append('reference_images[]', file);
+    });
+
+fetch('controller/userController.php?action=submitAd', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text()) // Convert response to text
+.then(text => {
+try {
+    
+    console.log(text);
+    const data = JSON.parse(text); // Attempt to parse JSON
+  
+    if (data.success) {
+        alert('Ad submitted successfully');
+        submitAdForm.reset();
+        // imagePreviewContainer.innerHTML = '';
+        // selectedFiles = [];
+        //selectedFilesData.value = '';
+    } else {
+        alert(data.error || 'Submission failed');
+    }
+} catch (e) {
+    console.error('Error parsing JSON:', e);
+    alert('An unexpected error occurred. Please try again.');
+}
+})
+.catch(error => console.error('Error submitting ad:', error));
+});
+});
+

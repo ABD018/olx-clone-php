@@ -149,7 +149,6 @@ function getAdsByCategory($categoryId) {
 
     $categoryId = $conn->real_escape_string($categoryId);
 
-
     $sql = "SELECT * FROM featured_ads WHERE category = '$categoryId' ORDER BY RAND() LIMIT 6";
     $result = $conn->query($sql);
 
@@ -167,12 +166,11 @@ function getAdsByCategory($categoryId) {
 
 
 
-
 function getUserById($userId) {
     $db = new Database();
     $conn = $db->getConnection();
 
-    $stmt = $conn->prepare("SELECT id, name, email, profile_photo, phone_number, address FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, name, email, profile_photo FROM users WHERE id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -184,15 +182,15 @@ function getUserById($userId) {
     return $user;
 }
 
-function updateUserProfile($userId, $name, $email, $password, $phone_number, $address) {
+function updateUserProfile($userId, $name, $email, $password) {
     $db = new Database();
     $conn = $db->getConnection();
 
     // Password hashing
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
-    $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, password = ?, phone_number = ?, address = ? WHERE id = ?");
-    $stmt->bind_param("sssssi", $name, $email, $hashedPassword, $phone_number, $address, $userId);
+    $stmt = $conn->prepare("UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?");
+    $stmt->bind_param("sssi", $name, $email, $hashedPassword, $userId);
     
     $success = $stmt->execute();
 
@@ -231,7 +229,6 @@ function addFeaturedAd($user_id, $title, $description, $adImage, $iconClass, $ca
 
     return $success;
 }
-
 
 
 function getAdDetails($ad_id) {
@@ -306,6 +303,5 @@ function getAllFeaturedAds() {
     $conn->close();
     return $ads;
 }
-
 
 ?>

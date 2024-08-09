@@ -25,8 +25,6 @@ if (!$user) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
-    $phone = trim($_POST['phone_number'] ?? '');
-    $address = trim($_POST['address'] ?? '');
 
     $errors = [];
 
@@ -38,20 +36,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = 'Invalid email format.';
     }
-    if(empty($address)) {
-        $errors[] = 'address is required';
-    }
-    if(empty($phone)) {
-        $errors[] = 'phone number is required';
-    }
 
     if (empty($errors)) {
         $db = new Database();
         $conn = $db->getConnection();
 
-        $sql = "UPDATE users SET name = ?, email = ?, address = ?, phone_number = ? WHERE id = ?";
+        $sql = "UPDATE users SET name = ?, email = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssi", $name, $email, $address, $phone, $user_id);
+        $stmt->bind_param("ssi", $name, $email, $user_id);
 
         if ($stmt->execute()) {
             $message = 'Profile updated successfully!';
