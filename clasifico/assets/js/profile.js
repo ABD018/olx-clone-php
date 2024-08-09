@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const profileForm = document.querySelector('#profile-form');
 
@@ -8,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data) {
                 document.getElementById('name').value = data.name || '';
                 document.getElementById('email').value = data.email || '';
+                document.getElementById('address').value = data.address || '';
+                document.getElementById('phone_number').value = data.phone || '';
             }
         })
         .catch(error => console.error('Error fetching profile:', error));
@@ -18,11 +21,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const phone = document.getElementById('phone_number').value.trim();
 
         const formData = new FormData();
         formData.append('name', name);
         formData.append('email', email);
         formData.append('password', password);
+        formData.append('address', address);
+        formData.append('phone_number', phone);
 
         fetch('controller/userController.php?action=updateProfile', {
             method: 'POST',
@@ -41,14 +48,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-
 //submit ad 
 
 document.addEventListener('DOMContentLoaded', function() {
+    const sidebarLinks = document.querySelectorAll('.sidebar .nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
     const submitAdForm = document.getElementById('submitAdForm');
+    const fileInput = document.getElementById('reference_images');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
     const categoryButton = document.getElementById('adCategoryButton');
     const categoryDropdownItems = document.querySelectorAll('.dropdown-menu .dropdown-item');
     let selectedCategory = '';
+    let selectedFiles = []; // Array to keep track of all selected files
+    const selectedFilesData = document.getElementById('selectedFilesData'); // Hidden input field
 
     // Handle category selection
     categoryDropdownItems.forEach(item => {
@@ -128,93 +140,127 @@ document.addEventListener('DOMContentLoaded', function() {
  
     // Fetch ads when the page loads
     fetchAds();
-    
 
-    submitAdForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+     // Sidebar toggle function
+     function toggleSidebar() {
+        document.querySelector('.sidebar').classList.toggle('collapsed');
+        document.querySelector('.content').classList.toggle('expanded');
+    }
 
-        const adTitle = document.getElementById('adTitle').value.trim();
-        const adDescription = document.getElementById('adDescription').value.trim();
-        const adImage = document.getElementById('adImage').files[0];
-        const authorImage = document.getElementById('authorImage') ? document.getElementById('authorImage').files[0] : null;
-        const adLocation = document.getElementById('adLocation').value.trim();
-        const adPrice = document.getElementById('adPrice').value.trim();
-        const authorName = document.getElementById('authorName') ? document.getElementById('authorName').value.trim() : '';
-        const authorRole = document.getElementById('authorRole') ? document.getElementById('authorRole').value.trim() : '';
+    // Add click event to sidebar links
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
 
+            // Remove active class from all links
+            sidebarLinks.forEach(link => link.classList.remove('active'));
 
+            // Add active class to the clicked link
+            this.classList.add('active');
 
-        const formData = new FormData();
-        formData.append('title', adTitle);
-        formData.append('description', adDescription);
-        formData.append('adImage', adImage);
-        formData.append('authorImage', authorImage);
-        formData.append('category', selectedCategory);
-        formData.append('location', adLocation);
-        formData.append('price', adPrice);
-        formData.append('authorName', authorName);
-        formData.append('authorRole', authorRole);
+            // Hide all content sections
+            contentSections.forEach(section => section.style.display = 'none');
 
-        // console.log('Submitting form with data:', {
-        //     title: adTitle,
-        //     description: adDescription,
-        //     adImage: adImage ? adImage.name : null,
-        //     authorImage: authorImage ? authorImage.name : null,
-        //     category: selectedCategory,
-        //     location: adLocation,
-        //     price: adPrice,
-        //     authorName: authorName,
-        //     authorRole: authorRole
-        // });
-
-        fetch('controller/userController.php?action=submitAd', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Server response:', data);
-
-            if (data.success) {
-                // Add new ad to the page
-                const cardDeck = document.getElementById('listings-cards');
-                const newCard = document.createElement('div');
-                newCard.className = 'card border-0 shadow-sm mb-3';
-                newCard.innerHTML = `
-                    <div style="width: 100%; height: 200px; overflow: hidden;">
-                        <img src="${data.adImageUrl}" style="width: 100%; height: 100%; object-fit: cover;" alt="${adTitle}">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">${adTitle}</h5>
-                        <p class="card-text">${adDescription}</p>
-                    </div>
-                    <div class="card-footer border-0 bg-transparent">
-                        <img src="${data.authorImageUrl}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; margin-right: 10px;" alt="${authorName}">
-                        <small class="text-muted">${authorName} - ${authorRole}</small>
-                        <small class="text-muted">Posted just now</small>
-                    </div>
-                `;
-                cardDeck.appendChild(newCard);
-
-                // Reset form and modal
-                // alert('Ad submitted successfully');
-                $('#submitAdModal').modal('hide');
-                submitAdForm.reset();
-                categoryButton.textContent = 'Select Category'; // Reset category button text
-                selectedCategory = '';
-            } else {
-                alert(data.error || 'Submission failed');
-            }
-        })
-        .catch(error => {
-            console.error('Error submitting ad:', error);
-            alert('An error occurred while submitting the ad.');
+            // Show the selected content section
+            const targetSection = document.querySelector(this.getAttribute('href'));
+            targetSection.style.display = 'block';
         });
+    });
+
+    // Show the default section (Profile section)
+    const defaultSection = document.querySelector('.sidebar .nav-link.active');
+    if (defaultSection) {
+        const targetSection = document.querySelector(defaultSection.getAttribute('href'));
+        targetSection.style.display = 'block';
+    }
+
+ // Handle image selection and preview
+ fileInput.addEventListener('change', function() {
+    const files = Array.from(this.files); // Convert FileList to Array
+    selectedFiles = [...selectedFiles, ...files]; // Append new files to the existing array
+    console.log(selectedFiles);
+    // Update hidden input with base64 data for each selected file
+    const fileDataArray = [];
+    selectedFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            fileDataArray.push(e.target.result);
+            // Update the hidden input field
+            selectedFilesData.value = JSON.stringify(fileDataArray);
+            
+            // Display the image previews
+            imagePreviewContainer.innerHTML = '';
+            fileDataArray.forEach(dataUrl => {
+                const imgElement = document.createElement('img');
+                imgElement.src = dataUrl;
+                imgElement.style.width = '100px';
+                imgElement.style.marginRight = '10px';
+                imgElement.style.marginBottom = '10px';
+                imagePreviewContainer.appendChild(imgElement);
+            });
+        };
+        reader.readAsDataURL(file);
     });
 });
 
+submitAdForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    console.log('Files before submission:', selectedFiles); // Debugging statement
+    if (selectedFiles.length < 3 || selectedFiles.length > 5) {
+        alert('Please upload between 3 and 5 reference images.');
+        return;
+    }
 
+    const adTitle = document.getElementById('adTitle').value.trim();
+    const adDescription = document.getElementById('adDescription').value.trim();
+    const adImage = document.getElementById('adImage').files[0];
+    const authorImage = document.getElementById('authorImage') ? document.getElementById('authorImage').files[0] : null;
+    const adLocation = document.getElementById('adLocation').value.trim();
+    const adPrice = document.getElementById('adPrice').value.trim();
+    const authorName = document.getElementById('authorName') ? document.getElementById('authorName').value.trim() : '';
+    const authorRole = document.getElementById('authorRole') ? document.getElementById('authorRole').value.trim() : '';
 
+    const formData = new FormData();
+    formData.append('title', adTitle);
+    formData.append('description', adDescription);
+    formData.append('adImage', adImage);
+    formData.append('authorImage', authorImage);
+    formData.append('category', selectedCategory);
+    formData.append('location', adLocation);
+    formData.append('price', adPrice);
+    formData.append('authorName', authorName);
+    formData.append('authorRole', authorRole)
+    // Append each file to the FormData object
+    selectedFiles.forEach(file => {
+        formData.append('reference_images[]', file);
+    });
 
-
+fetch('controller/userController.php?action=submitAd', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text()) // Convert response to text
+.then(text => {
+try {
+    
+    console.log(text);
+    const data = JSON.parse(text); // Attempt to parse JSON
+  
+    if (data.success) {
+        alert('Ad submitted successfully');
+        submitAdForm.reset();
+        // imagePreviewContainer.innerHTML = '';
+        // selectedFiles = [];
+        //selectedFilesData.value = '';
+    } else {
+        alert(data.error || 'Submission failed');
+    }
+} catch (e) {
+    console.error('Error parsing JSON:', e);
+    alert('An unexpected error occurred. Please try again.');
+}
+})
+.catch(error => console.error('Error submitting ad:', error));
+});
+});
 

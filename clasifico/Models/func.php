@@ -149,7 +149,6 @@ function getAdsByCategory($categoryId) {
 
     $categoryId = $conn->real_escape_string($categoryId);
 
-
     $sql = "SELECT * FROM featured_ads WHERE category = '$categoryId' ORDER BY RAND() LIMIT 6";
     $result = $conn->query($sql);
 
@@ -164,7 +163,6 @@ function getAdsByCategory($categoryId) {
     $conn->close();
     return $ads;
 }
-
 
 
 
@@ -202,30 +200,36 @@ function updateUserProfile($userId, $name, $email, $password) {
     return $success;
 }
 
-function addFeaturedAd($title, $description, $adImage, $iconClass, $category, $location, $price, $authorImage, $authorName, $authorRole, $rating, $ratingCount, $timeAgo) {
+function addFeaturedAd($user_id, $title, $description, $adImage, $iconClass, $category, $location, $price, $authorImage, $authorName, $authorRole, $rating, $ratingCount, $timeAgo, $referenceImages) {
     $db = new Database();
     $conn = $db->getConnection();
 
     $createdAt = date('Y-m-d H:i:s'); // Current timestamp
 
-    $stmt = $conn->prepare("INSERT INTO featured_ads (title, description, image, icon_class, category, location, price, author_image, author_name, author_role, rating, rating_count, time_ago) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    // Convert reference images array to JSON string
+    $referenceImagesJson = json_encode($referenceImages);
+
+    $stmt = $conn->prepare("INSERT INTO featured_ads (user_id, title, description, image, icon_class, category, location, price, author_image, author_name, author_role, rating, rating_count, time_ago, reference_images) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     if ($stmt === false) {
         echo json_encode(['success' => false, 'error' => 'Prepare failed: ' . $conn->error]);
         exit;
     }
 
-    $stmt->bind_param("sssssssssssss", $title, $description, $adImage, $iconClass, $category, $location, $price, $authorImage, $authorName, $authorRole, $rating, $ratingCount, $timeAgo);
+    // Bind parameters, including the JSON string for reference_images
+    $stmt->bind_param("issssssssssssss", $user_id, $title, $description, $adImage, $iconClass, $category, $location, $price, $authorImage, $authorName, $authorRole, $rating, $ratingCount, $timeAgo, $referenceImagesJson);
     
     $success = $stmt->execute();
+    if (!$success) {
+        echo json_encode(['success' => false, 'error' => 'Execute failed: ' . $stmt->error]);
+        exit;
+    }
 
     $stmt->close();
     $conn->close();
 
     return $success;
-} 
+}
 
-
-// func.php
 
 function getAdDetails($ad_id) {
     global $conn; // Assuming you have a database connection stored in $conn
@@ -243,5 +247,61 @@ function getAdDetails($ad_id) {
     }
 }
 
+function submitAd($data) {
+    // Assuming you have a database connection in $conn (update this according to your connection variable)
+    global $conn;
+
+    $title = $data['title'];
+    $description = $data['description'];
+    $category = $data['category'];
+    $location = $data['location'];
+    $price = $data['price'];
+    $adImagePath = $data['adImagePath'];
+    $authorImagePath = $data['authorImagePath'];
+    $authorName = $data['authorName'];
+    $authorRole = $data['authorRole'];
+    $iconClass = $data['iconClass'];
+    $rating = $data['rating'];
+    $ratingCount = $data['ratingCount'];
+    $timeAgo = $data['timeAgo'];
+
+    // SQL query to insert the ad details into the database
+    $sql = "INSERT INTO featured_ads (title, description, image, icon_class, category, location, price, author_image, author_name, author_role, rating, rating_count, time_ago)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    if ($stmt = $conn->prepare($sql)) {
+        // Bind parameters to the query
+        $stmt->bind_param("ssssssdsssiii", $title, $description, $adImagePath, $iconClass, $category, $location, $price, $authorImagePath, $authorName, $authorRole, $rating, $ratingCount, $timeAgo);
+
+        // Execute the query
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
+}
+function getAllFeaturedAds() {
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    $sql = "SELECT * FROM featured_ads";
+    $result = $conn->query($sql);
+
+    if ($result === false) {
+        $conn->close();
+        return ['error' => 'Query failed: ' . $conn->error];
+    }
+
+    $ads = [];
+    while ($row = $result->fetch_assoc()) {
+        $ads[] = $row;
+    }
+
+    $conn->close();
+    return $ads;
+}
 
 ?>

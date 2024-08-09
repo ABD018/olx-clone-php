@@ -1,6 +1,14 @@
 <?php
 require_once '../Models/func.php';
+
 session_start();
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    // Use $user_id for further processing
+} else {
+    // Handle the case where the user is not logged in
+    echo "User is not logged in.";
+}
 
 class UserController {
     public function getCategories() {
@@ -142,6 +150,7 @@ if (isset($_GET['action'])) {
                 $rating = 0; // Set a default value or handle as needed
                 $ratingCount = 0; // Set a default value or handle as needed
                 $timeAgo = 'Just now'; // Set a default value or handle as needed
+                
         
                 // Validate required fields
                 if (empty($title) || empty($description) || empty($category) || empty($location) || empty($price)) {
@@ -153,6 +162,7 @@ if (isset($_GET['action'])) {
                 $targetDir = "../clasifico/assets/uploads/"; // Ensure this directory is writable
                 $adImagePath = '';
                 $authorImagePath = '';
+                $referenceImages = []; // Initialize the reference images arr
         
                 // Handle ad image upload
                 if (isset($_FILES['adImage']) && $_FILES['adImage']['error'] === UPLOAD_ERR_OK) {
@@ -212,48 +222,73 @@ if (isset($_GET['action'])) {
                     // Update path to be relative to the root directory for frontend access
                     $authorImagePath = str_replace("../", "", $authorImagePath);
                 }
+                
         
-                // Save ad details along with image paths
-                if (addFeaturedAd($title, $description, $adImagePath, $iconClass, $category, $location, $price, $authorImagePath, $authorName, $authorRole, $rating, $ratingCount, $timeAgo,)) {
-                    echo json_encode([
-                        'success' => true,
-                        'adImageUrl' => $adImagePath,
-                        'authorImageUrl' => $authorImagePath
-                    ]);
-                } else {
-                    echo json_encode(['success' => false, 'error' => 'Failed to submit ad']);
+              // Handle reference images upload
+        if (isset($_FILES['reference_images'])) { // Note: 'reference_images' should match the name attribute in your HTML
+            foreach ($_FILES['reference_images']['tmp_name'] as $key => $tmpName) {
+                if ($_FILES['reference_images']['error'][$key] === UPLOAD_ERR_OK) {
+                    $referenceImageName = basename($_FILES['reference_images']['name'][$key]);
+                    $referenceImagePath = $targetDir . 'reference_images/' . $referenceImageName;
+                    $fileType = pathinfo($referenceImagePath, PATHINFO_EXTENSION);
+                    if (!in_array($fileType, $allowedTypes)) {
+                        echo json_encode(['success' => false, 'error' => 'Invalid reference image file type']);
+                        exit;
+                    }
+                    if (!is_dir(dirname($referenceImagePath))) {
+                        mkdir(dirname($referenceImagePath), 0777, true);
+                    }
+                    if (move_uploaded_file($tmpName, $referenceImagePath)) {
+                        $referenceImagePath = str_replace("../", "", $referenceImagePath);
+                        $referenceImages[] = $referenceImagePath;
+                    } else {
+                        echo json_encode(['success' => false, 'error' => 'Failed to upload reference image']);
+                        exit;
+                    }
                 }
-            } else {
-                echo json_encode(['error' => 'Invalid request']);
             }
+        }
+
+        // Save ad details along with image paths
+        if (addFeaturedAd($user_id, $title, $description, $adImagePath, $iconClass, $category, $location, $price, $authorImagePath, $authorName, $authorRole, $rating, $ratingCount, $timeAgo, $referenceImages)) {
+            echo json_encode([
+                'success' => true,
+                'adImageUrl' => $adImagePath,
+                'authorImageUrl' => $authorImagePath,
+                'referenceImages' => $referenceImages
+            ]);
+        } else {
+            echo json_encode(['success' => false, 'error' => 'Failed to submit ad']);
+        }
+    }
+
+    break;
+
+    case 'fetchAdDetails': // New action to fetch ad details
+        if (isset($_GET['ad_id'])) {
+            $ad_id = intval($_GET['ad_id']);
+            header('Content-Type: application/json');
+            $adDetails = $controller->getAdDetails($ad_id);
+            
+            if ($adDetails) {
+                echo json_encode(['status' => 'success', 'data' => $adDetails]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Ad not found']);
+            }
+        } else {
+            echo json_encode(['error' => 'No ad ID specified']);
+        }
+        break;
+
+        
+        case 'getAds':
+            header('Content-Type: application/json');
+            echo json_encode($controller->getFeaturedAds()); // Assuming this method returns all ads
             break;
 
-            case 'fetchAdDetails': // New action to fetch ad details
-                if (isset($_GET['ad_id'])) {
-                    $ad_id = intval($_GET['ad_id']);
-                    header('Content-Type: application/json');
-                    $adDetails = $controller->getAdDetails($ad_id);
-                    
-                    if ($adDetails) {
-                        echo json_encode(['status' => 'success', 'data' => $adDetails]);
-                    } else {
-                        echo json_encode(['status' => 'error', 'message' => 'Ad not found']);
-                    }
-                } else {
-                    echo json_encode(['error' => 'No ad ID specified']);
-                }
-                break;
-
-
-                //abhishek.....
-                case 'getAds':
-                    header('Content-Type: application/json');
-                    echo json_encode($controller->getFeaturedAds()); // Assuming this method returns all ads
-                    break;
-
-       
-    }
+}
 } else {
-    echo json_encode(['error' => 'No action specified']);
+echo json_encode(['error' => 'No action specified']);
 }
 ?>
+

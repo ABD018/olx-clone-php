@@ -1,5 +1,5 @@
-<?php
-// session_start();
+<?php 
+session_start();
 require_once 'Models/func.php';
 
 // Check if the request is from AJAX
