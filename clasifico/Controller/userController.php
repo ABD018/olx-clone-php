@@ -266,7 +266,31 @@ if (isset($_GET['action'])) {
         }
     }
 
-    // Other cases...
+    break;
+
+    case 'fetchAdDetails': // New action to fetch ad details
+        if (isset($_GET['ad_id'])) {
+            $ad_id = intval($_GET['ad_id']);
+            header('Content-Type: application/json');
+            $adDetails = $controller->getAdDetails($ad_id);
+            
+            if ($adDetails) {
+                echo json_encode(['status' => 'success', 'data' => $adDetails]);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Ad not found']);
+            }
+        } else {
+            echo json_encode(['error' => 'No ad ID specified']);
+        }
+        break;
+
+
+        
+        case 'getAds':
+            header('Content-Type: application/json');
+            echo json_encode($controller->getFeaturedAds()); // Assuming this method returns all ads
+            break;
+
 
 }
 } else {
