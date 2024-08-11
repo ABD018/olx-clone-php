@@ -10,35 +10,18 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
-// Handle the form submission
+// Handle the delete request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $ad_id = $_POST['ad_id'];
-    $title = $_POST['title'];
-    $description = $_POST['description'];
-    $price = $_POST['price'];
-    $location = $_POST['location'];
+    $ad_id = $_POST['id'];
 
-    // Validate inputs
-    if (empty($title) || empty($description) || empty($price) || empty($location)) {
-        $message = "All fields are required!";
+    // Delete the ad from the database
+    $delete_success = deleteAd($ad_id, $user_id);
+
+    if ($delete_success) {
+        // Return a successful response
+        echo json_encode(['status' => 'success', 'message' => 'Ad deleted successfully']);
     } else {
-        // Update the ad in the database
-        $update_success = updateAd($ad_id, $title, $description, $price, $location);
-
-        if ($update_success) {
-            // Update the UI (AJAX response)
-            echo json_encode([
-                'status' => 'success',
-                'message' => 'Ad updated successfully',
-                'ad_id' => $ad_id,
-                'title' => $title,
-                'description' => $description,
-                'price' => $price,
-                'location' => $location
-            ]);
-        } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to update ad']);
-        }
+        echo json_encode(['status' => 'error', 'message' => 'Failed to delete ad']);
     }
     exit;
 }

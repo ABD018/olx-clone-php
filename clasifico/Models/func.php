@@ -128,6 +128,32 @@ function login($data) {
     }
 }
 
+function updateAd($ad_id, $title, $description, $price, $location) {
+    global $conn; // Ensure you have a valid PDO connection
+
+    try {
+        $stmt = $conn->prepare("UPDATE featured_ads SET title = ?, description = ?, price = ?, location = ? WHERE id = ?");
+        $result = $stmt->execute([$title, $description, $price, $location, $ad_id]);
+
+        if ($result === false) {
+            error_log('Database update failed: ' . implode(', ', $stmt->errorInfo()));
+        }
+        return $result;
+    } catch (Exception $e) {
+        error_log('Exception during updateAd execution: ' . $e->getMessage());
+        return false;
+    }
+}
+
+
+function deleteAd($ad_id, $user_id) {
+    global $conn; // Assuming you have a database connection
+
+    $stmt = $conn->prepare("DELETE FROM featured_ads WHERE id = ? AND user_id = ?");
+    return $stmt->execute([$ad_id, $user_id]);
+}
+
+
 function getFeaturedAdByUserId($userId) {
     $db = new Database();
     $conn = $db->getConnection();
