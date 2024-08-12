@@ -129,16 +129,32 @@ function login($data) {
 }
 
 function updateAd($ad_id, $title, $description, $price, $location) {
-    global $conn; // Ensure you have a valid PDO connection
+    $db = new Database();
+    $conn = $db->getConnection();
 
     try {
-        $stmt = $conn->prepare("UPDATE featured_ads SET title = ?, description = ?, price = ?, location = ? WHERE id = ?");
-        $result = $stmt->execute([$title, $description, $price, $location, $ad_id]);
+        $stmt = $conn->prepare(
+            "UPDATE featured_ads 
+            SET title = ?, description = ?, price = ?, location = ? 
+            WHERE id = ?"
+        );
+
+        if ($stmt === false) {
+            error_log('Prepare failed: ' . $conn->error);
+            return false;
+        }
+
+        $stmt->bind_param("ssdsi", $title, $description, $price, $location, $ad_id);
+
+        $result = $stmt->execute();
 
         if ($result === false) {
-            error_log('Database update failed: ' . implode(', ', $stmt->errorInfo()));
+            error_log('Execute failed: ' . $stmt->error);
         }
+
+        $stmt->close();
         return $result;
+
     } catch (Exception $e) {
         error_log('Exception during updateAd execution: ' . $e->getMessage());
         return false;
@@ -147,10 +163,25 @@ function updateAd($ad_id, $title, $description, $price, $location) {
 
 
 function deleteAd($ad_id, $user_id) {
-    global $conn; // Assuming you have a database connection
+    $db = new Database();
+    $conn = $db->getConnection();
 
     $stmt = $conn->prepare("DELETE FROM featured_ads WHERE id = ? AND user_id = ?");
-    return $stmt->execute([$ad_id, $user_id]);
+
+    
+    if ($stmt === false) {
+        error_log('Prepare failed: ' . $conn->error);
+        return false;
+    }
+
+    $stmt->bind_param("ii", $ad_id, $user_id);
+    $result = $stmt->execute();
+    if ($result === false) {
+        error_log('Execute failed: ' . $stmt->error);
+    }
+
+    $stmt->close();
+    return $result;
 }
 
 
