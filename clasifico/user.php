@@ -539,6 +539,7 @@ if (isset($_SESSION['user_id'])) {
                             <div class="modal-body">
                                 <form id="adForm" method="POST">
                                     <input type="hidden" name="ad_id" id="ad_id">
+                                    <input type="hidden" name="update_ad" id="update_ad">
                                     <div class="mb-3">
                                         <label for="title" class="form-label">Title</label>
                                         <input type="text" class="form-control" id="title" name="title" required>
@@ -556,7 +557,7 @@ if (isset($_SESSION['user_id'])) {
                                         <label for="location" class="form-label">Location</label>
                                         <input type="text" class="form-control" id="location" name="location" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary" name="update_ad">Update Ad</button>
+                                    <button type="submit" class="btn btn-primary" name="update_ad_btn">Update Ad</button>
                                 </form>
                             </div>
                         </div>
@@ -788,50 +789,55 @@ if (isset($_SESSION['user_id'])) {
             });
 
             document.getElementById('adForm').addEventListener('submit', function (e) {
-    e.preventDefault(); // Prevent the default form submission
+                e.preventDefault(); // Prevent the default form submission
 
-    const formElement = this;
-    if (!formElement) {
-        console.error("Form element not found.");
-        return;
-    }
+                const formElement = this;
+                if (!formElement) {
+                    console.error("Form element not found.");
+                    return;
+                }
 
-    const formData = new FormData(formElement);
-    
-    // Debug FormData
-    for (const [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-    }
+                const formData = new FormData(formElement);
+                
+                // Debug FormData
+                for (const [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
 
-    fetch('edit_ad.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text())  // Change to text to handle non-JSON responses
-    .then(text => {
-        try {
-            const data = JSON.parse(text);  // Attempt to parse JSON
-            if (data.status === 'success') {
-                // Update the UI with the new details
-                const adId = formData.get('ad_id');
-                document.querySelector('#title').textContent = formData.get('title');
-                document.querySelector('#description').textContent = formData.get('description');
-                document.querySelector('#price').textContent = formData.get('price');
-                document.querySelector('#location').textContent = formData.get('location');
+                fetch('edit_ad.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.text())  // Change to text to handle non-JSON responses
+                .then(text => {
+                    try {
+                        const data = JSON.parse(text);  // Attempt to parse JSON
+                        if (data.status === 'success') {
+                            // Update the UI with the new details
+                            const adId = formData.get('ad_id');
+                            document.querySelector('#title').value = formData.get('title');
+                            document.querySelector('#description').value = formData.get('description');
+                            document.querySelector('#price').value = formData.get('price');
+                            document.querySelector('#location').value = formData.get('location');
 
-                // Close the modal
-                const modal = bootstrap.Modal.getInstance(document.getElementById('adFormModal'));
-                modal.hide();
-            } else {
-                alert('Failed to update ad.');
-            }
-        } catch (e) {
-            console.error('Error parsing JSON:', e);
-            console.error('Response text:', text);
-        }
-    })
-    .catch(error => console.error('Error:', error));
-});
+                            // update button details as well
+                            const editBtn = jQuery('button[data-ad-id="' + adId + '"]').get(0);
+                            editBtn.setAttribute('data-title', formData.get('title'));
+                            editBtn.setAttribute('data-description', formData.get('description'));
+                            editBtn.setAttribute('data-price', formData.get('price'));
+                            editBtn.setAttribute('data-location', formData.get('location'));
+
+                            $('#adFormModal').modal('hide');
+                        } else {
+                            alert('Failed to update ad.');
+                        }
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                        console.error('Response text:', text);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
 
 
 
@@ -841,19 +847,27 @@ if (isset($_SESSION['user_id'])) {
                 if (confirm('Are you sure you want to delete this ad?')) {
                     let adId = $(this).data('ad-id');
 
-                    $.ajax({
-                        type: 'POST',
-                        url: 'delete_ad.php',
-                        data: { ad_id: adId },
-                        dataType: 'json',
-                        success: function (response) {
-                            if (response.status === 'success') {
-                                $('#ad-' + adId).remove();
-                                alert(response.message);
-                            } else {
-                                alert(response.message);
-                            }
+                    const formData = new URLSearchParams();
+                    formData.append('ad_id', adId);
+
+                    fetch('delete_ad.php', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            document.getElementById('ad-' + adId).remove();
+                            alert(data.message);
+                        } else {
+                            alert(data.message);
                         }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                     });
                 }
             });

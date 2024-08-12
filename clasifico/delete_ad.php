@@ -12,7 +12,7 @@ $user_id = $_SESSION['user_id'];
 
 // Handle the delete request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $ad_id = $_POST['id'];
+    $ad_id = $_POST['ad_id'];
 
     // Delete the ad from the database
     $delete_success = deleteAd($ad_id, $user_id);
