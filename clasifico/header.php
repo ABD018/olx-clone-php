@@ -1,9 +1,31 @@
 <?php
-session_start(); // Start the session to access session variables
+// Check if a session is not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+require_once 'Models/UserModel.php';
 
 // Check if the user is logged in
 $isLoggedIn = isset($_SESSION['user_id']); // Assuming 'user_id' is set when the user is logged in
+
+if ($isLoggedIn) {
+    // Get the logged-in user's ID from the session
+    $userId = $_SESSION['user_id'];
+
+    // Fetch the user details from the database using the UserModel
+    $user = UserModel::getUserById($userId);
+
+    $isAdmin = $user['role'] == 'admin';
+
+    if ($isAdmin) {
+        $profileName = 'Admin';
+    }
+    else {
+        $profileName = $user['name'];
+    }
+}
 ?>
+
 <header class="main-header">
     <!-- header-lower -->
     <div class="header-lower">
@@ -37,7 +59,7 @@ $isLoggedIn = isset($_SESSION['user_id']); // Assuming 'user_id' is set when the
 
                                 <!-- Conditional Links -->
                                 <?php if ($isLoggedIn): ?>
-                                    <li><a href="user.php">Profile</a></li>
+                                    <li><a href="user.php"><?= $profileName ?></a></li>
                                     <li><a href="logout.php">Logout</a></li>
                                 <?php else: ?>
                                     <li><a href="login.php">Login</a></li> 
@@ -49,7 +71,7 @@ $isLoggedIn = isset($_SESSION['user_id']); // Assuming 'user_id' is set when the
                     </nav>
                 </div>
                 <div class="btn-box">
-                    <a href="browse-ads-details.php" class="theme-btn-one"><i class="icon-1"></i>Submit Ads</a>
+                    <a href="user.php#listings" class="theme-btn-one"><i class="icon-1"></i>Submit Ads</a>
                 </div>
             </div>
         </div>
@@ -68,7 +90,7 @@ $isLoggedIn = isset($_SESSION['user_id']); // Assuming 'user_id' is set when the
                     </nav>
                 </div>
                 <div class="btn-box">
-                    <a href="browse-ads-details.php" class="theme-btn-one"><i class="icon-1"></i>Submit Ads</a>
+                    <a href="user.php#listings" class="theme-btn-one"><i class="icon-1"></i>Submit Ads</a>
                 </div>
             </div>
         </div>

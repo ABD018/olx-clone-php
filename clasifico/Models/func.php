@@ -65,7 +65,7 @@ function getPlaces() {
     return $places;
 }
 
-function signup($data) {
+function signup($name, $email, $password, $role) {
     $db = new Database();
     $conn = $db->getConnection();
 
@@ -73,9 +73,10 @@ function signup($data) {
         return ['error' => 'Could not connect to the database: ' . mysqli_connect_error()];
     }
 
-    $name = $conn->real_escape_string($data['name']);
-    $email = $conn->real_escape_string($data['email']);
-    $password = password_hash($conn->real_escape_string($data['password']), PASSWORD_BCRYPT);
+    $name = $conn->real_escape_string($name);
+    $email = $conn->real_escape_string($email);
+    $password = password_hash($conn->real_escape_string($password), PASSWORD_BCRYPT);
+    $role = $conn->real_escape_string($role); // Sanitize the role input
 
     // Check if email already exists
     $checkEmailSql = "SELECT * FROM users WHERE email = '$email'";
@@ -86,7 +87,7 @@ function signup($data) {
         return ['error' => 'Email already exists, please sign in'];
     }
 
-    $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$password')";
+    $sql = "INSERT INTO users (name, email, password, role) VALUES ('$name', '$email', '$password', '$role')";
     if ($conn->query($sql) === TRUE) {
         $conn->close();
         return ['success' => true];
@@ -96,6 +97,7 @@ function signup($data) {
         return ['error' => 'Error: ' . $error];
     }
 }
+
 
 function login($data) {
     $db = new Database();
@@ -122,6 +124,47 @@ function login($data) {
             $conn->close();
             return ['error' => 'Invalid password'];
         }
+    } else {
+        $conn->close();
+        return ['error' => 'No user found with that email'];
+    }
+}
+
+function modifyPassword($data) {
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    if ($conn === false) {
+        return ['error' => 'Could not connect to the database: ' . mysqli_connect_error()];
+    }
+
+    if (isset($_SESSION['user_id'])) {
+        $userID = $_SESSION['user_id'];
+    }
+    else {
+        $userID = $_SESSION['otp_user_id'];
+    }  
+    $password = $conn->real_escape_string($data['password']);
+    $encrypted_password = password_hash($conn->real_escape_string($password), PASSWORD_BCRYPT);
+
+    $sql = "SELECT * FROM users WHERE id = '$userID'";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        $stmt = $conn->prepare(
+            "UPDATE users 
+            SET password = ? WHERE id = ?"
+        );
+        $stmt->bind_param("si", $encrypted_password, $userID);
+        $result = $stmt->execute();
+
+        if ($result === false) {
+            error_log('Update password failed: ' . $stmt->error);
+        }
+
+        $stmt->close();
+        $conn->close();
+        return ['success' => true];
     } else {
         $conn->close();
         return ['error' => 'No user found with that email'];
@@ -204,6 +247,22 @@ function getFeaturedAdByUserId($userId) {
     return $ads;
 }
 
+function getFeaturedAdById($Id) {
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    // Use prepared statements to prevent SQL injection
+    $stmt = $conn->prepare("SELECT * FROM featured_ads WHERE id = ?");
+    $stmt->bind_param("i", $Id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $ad = $result->fetch_assoc();   
+    $stmt->close();
+    $conn->close();
+    return $ad;
+}
+
 
 
 function getAdsByCategory($categoryId) {
@@ -227,13 +286,34 @@ function getAdsByCategory($categoryId) {
     return $ads;
 }
 
+function getAdsByItemTitle($itemTitle) {
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    $itemTitle = $conn->real_escape_string($itemTitle);
+
+    $sql = "SELECT * FROM featured_ads WHERE title like '%$itemTitle%'";
+    $result = $conn->query($sql);
+
+    $ads = [];
+    while ($row = $result->fetch_assoc()) {
+        $ads[] = $row;
+    }
+
+    // Check the result of the query
+    error_log("Ads found: " . print_r($ads, true));
+
+    $conn->close();
+    return $ads;
+}
+
 
 
 function getUserById($userId) {
     $db = new Database();
     $conn = $db->getConnection();
 
-    $stmt = $conn->prepare("SELECT id, name, email, profile_photo FROM users WHERE id = ?");
+    $stmt = $conn->prepare("SELECT id, name, email, profile_photo, address, phone_number FROM users WHERE id = ?");
     $stmt->bind_param("i", $userId);
     $stmt->execute();
     $result = $stmt->get_result();

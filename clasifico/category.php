@@ -99,20 +99,20 @@
                                 <i class="icon-3"></i>
                                 <select class="wide">
                                    <option data-display="Select Location">Select Location</option>
-                                   <option value="1">California</option>
+                                   <!-- <option value="1">California</option>
                                    <option value="2">New York</option>
                                    <option value="3">Sun Francis</option>
-                                   <option value="4">Shicago</option>
+                                   <option value="4">Shicago</option> -->
                                 </select>
                             </div>
                             <div class="form-group">
                                 <i class="icon-4"></i>
                                 <select class="wide">
-                                   <option data-display="Select Category">Select Category</option>
-                                   <option value="1">Education</option>
+                                <option data-display="Select Category">Select Category</option>
+                                  <!-- <option value="1">Education</option>
                                    <option value="2">Restaurant</option>
                                    <option value="3">Real Estate</option>
-                                   <option value="4">Home Appliances</option>
+                                   <option value="4">Home Appliances</option> -->
                                 </select>
                             </div>
                             <div class="btn-box">
@@ -156,7 +156,7 @@
                     <div class="col-lg-6 col-md-6 col-sm-12 form-column">
                         <form action="https://azim.commonsupport.com/Clasifico/contact.html" method="post" class="subscribe-form">
                             <div class="form-group">
-                                <input type="email" name="email" placeholder="Inout your email address" required="">
+                                <input type="email" name="email" placeholder="Input your email address" required="">
                                 <button type="submit" class="theme-btn-one">Subscribe Now</button>
                             </div>
                         </form>

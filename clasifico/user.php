@@ -246,7 +246,7 @@ if (isset($_SESSION['user_id'])) {
             /* Add border around profile image */
         }
 
-        .change-photo-btn {
+        .change-photo-btn, .change-password-btn {
             margin-top: 10px;
         }
 
@@ -385,6 +385,15 @@ if (isset($_SESSION['user_id'])) {
             color: white;
             text-decoration: underline;
         }
+
+        #viewForm #location {
+            height:auto;
+        }
+
+        .change-pass-btn {
+            display: flex;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -399,7 +408,6 @@ if (isset($_SESSION['user_id'])) {
                 <a href="#profile" class="list-group-item active">Profile</a>
                 <a href="#listings" class="list-group-item">My Listings</a>
                 <a href="#messages" class="list-group-item">Messages</a>
-                <a href="#settings" class="list-group-item">Settings</a>
                 <a href="logout.php" class="list-group-item">Logout</a>
             </div>
         </div>
@@ -464,6 +472,7 @@ if (isset($_SESSION['user_id'])) {
                                 <input type="file" id="profile-photo" name="profile-photo" class="form-control">
                                 <button type="submit" class="btn btn-secondary change-photo-btn">Change Photo</button>
                             </form>
+                            <button class="btn btn-secondary change-password-btn">Change Password</button>
                         </div>
                     </div>
                 </div>
@@ -494,16 +503,24 @@ if (isset($_SESSION['user_id'])) {
                                 <?php foreach ($ads as $ad): ?>
                                     <tr id="ad-<?php echo $ad['id']; ?>">
                                         <td><?php echo $serialNo++; ?></td>
-                                        <td class="ad-title"><?php echo htmlspecialchars($ad['title']); ?></td>
-                                        <td class="ad-description"><?php echo htmlspecialchars($ad['description']); ?></td>
-                                        <td class="ad-price"><?php echo htmlspecialchars($ad['price']); ?></td>
-                                        <td class="ad-location"><?php echo htmlspecialchars($ad['location']); ?></td>
+                                        <td class="adv-title"><?php echo htmlspecialchars($ad['title']); ?></td>
+                                        <td class="adv-description"><?php echo htmlspecialchars($ad['description']); ?></td>
+                                        <td class="adv-price"><?php echo htmlspecialchars($ad['price']); ?></td>
+                                        <td class="adv-location"><?php echo htmlspecialchars($ad['location']); ?></td>
                                         <td>
                                             <img src="<?php echo htmlspecialchars($ad['image']); ?>" alt="Ad Image"
                                                 style="width: 100px; height: 100px; object-fit: cover;">
                                         </td>
 
                                         <td>
+                                            <button class="btn btn-primary viewAdForm" data-ad-id="<?php echo $ad['id']; ?>"
+                                                data-title="<?php echo htmlspecialchars($ad['title']); ?>"
+                                                data-description="<?php echo htmlspecialchars($ad['description']); ?>"
+                                                data-price="<?php echo htmlspecialchars($ad['price']); ?>"
+                                                data-location="<?php echo htmlspecialchars($ad['location']); ?>"
+                                                data-image="<?php echo htmlspecialchars($ad['image']); ?>">
+                                                View
+                                            </button>
                                             <button class="btn btn-primary editAdForm" data-ad-id="<?php echo $ad['id']; ?>"
                                                 data-title="<?php echo htmlspecialchars($ad['title']); ?>"
                                                 data-description="<?php echo htmlspecialchars($ad['description']); ?>"
@@ -511,7 +528,7 @@ if (isset($_SESSION['user_id'])) {
                                                 data-location="<?php echo htmlspecialchars($ad['location']); ?>">
                                                 Edit
                                             </button>
-                                            <button id="delete-ad-button" class="btn btn-danger delete-ad-button"
+                                            <button id="delete-ad-button" class="btn btn-primary delete-ad-button"
                                                 data-ad-id="<?php echo $ad['id']; ?>">Delete</button>
                                         </td>
 
@@ -524,6 +541,46 @@ if (isset($_SESSION['user_id'])) {
                             <?php endif; ?>
                         </tbody>
                     </table>
+                </div>
+
+                <!-- Ad View Modal -->
+                <div class="modal fade" id="adViewFormModal" tabindex="-1" aria-labelledby="adFormModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="adFormModalLabel">View Ad</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="viewForm">
+                                    <input type="hidden" name="ad_id" id="ad_id">
+                                    <input type="hidden" name="update_ad" id="update_ad">
+                                    <div class="mb-3">
+                                        <label for="title" class="form-label">Title</label>
+                                        <span class="form-control" id="title"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Description</label>
+                                        <span class="form-control" id="description"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Price</label>
+                                        <span class="form-control" id="price"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="location" class="form-label">Location</label>
+                                        <span class="form-control" id="location"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Cover Image</label>
+                                        <img id="image" href="" alt="Cover Image"></img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Ad Edit Modal -->
@@ -564,6 +621,36 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
 
+                <!-- Change Password Modal -->
+                <div class="modal fade" id="changePassFormModal" tabindex="-1" aria-labelledby="changePassFormModal"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="changePassFormModalLabel">Change Password</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="login.php" method="post" id="changePassForm" novalidate>
+                                    <div class="form-group">
+                                        <label>Password</label>
+                                        <input type="password" name="password" required autocomplete="off" placeholder="Password" id="password">
+                                        <div id="password-error" class="error-message"></div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm Password</label>
+                                        <input type="password" name="confirm-password" required autocomplete="off" placeholder="Confirm password" id="confirm_password">
+                                        <div id="confirm_password-error" class="error-message"></div>
+                                    </div>
+                                    <div class="form-group change-pass-btn">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
                 <!-- Modal HTML code -->
@@ -609,8 +696,7 @@ if (isset($_SESSION['user_id'])) {
 
                                     <div class="form-group">
                                         <label for="authorImage">Author Image</label>
-                                        <input type="file" class="form-control-file" id="authorImage" accept="image/*"
-                                            value="<?php echo htmlspecialchars($user['author_image']); ?>" readonly>
+                                        <img src="<?php echo htmlspecialchars($user['profile_photo']); ?>" id="authorImage" alt="Author Image"></img>
                                     </div>
                                     <div class="form-group">
                                         <label for="authorName">Author Name</label>
@@ -677,22 +763,6 @@ if (isset($_SESSION['user_id'])) {
                     </div>
                 </div>
 
-                <div class="content-section" id="settings">
-                    <h3>Settings</h3>
-                    <form>
-                        <div class="form-group">
-                            <label for="password">New Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="Enter new password">
-                        </div>
-                        <div class="form-group">
-                            <label for="confirm-password">Confirm Password</label>
-                            <input type="password" class="form-control" id="confirm-password"
-                                placeholder="Confirm new password">
-                        </div>
-                        <button type="submit" class="btn">Save Changes</button>
-                    </form>
-                </div>
-
                 <div class="content-section" id="logout">
                     <h3>Logout</h3>
                     <button class="btn btn-danger">Logout</button>
@@ -750,13 +820,24 @@ if (isset($_SESSION['user_id'])) {
             });
         });
         document.addEventListener("DOMContentLoaded", function () {
+            setTimeout(function () {
+                if (window.location.hash) {
+                    document.querySelector('a[href="'+ window.location.hash + '"]').click();
+                }
+            }, 0);
+
             document.querySelectorAll("#sidebar-wrapper .list-group-item").forEach(function (item) {
                 item.addEventListener("click", function () {
                     var target = this.getAttribute("href").substring(1);
                     document.querySelectorAll(".content-section").forEach(function (section) {
                         section.classList.remove("active");
                     });
+                    document.querySelectorAll(".list-group a").forEach(function (section) {
+                        section.classList.remove("active");
+                    });
+                    
                     document.getElementById(target).classList.add("active");
+                    document.querySelector(`a[href="#${target}"`).classList.add("active");
                 });
             });
 
@@ -766,6 +847,90 @@ if (isset($_SESSION['user_id'])) {
             });
         });
         $(document).ready(function () {
+
+            document.querySelectorAll('.viewAdForm').forEach(button => {
+                button.addEventListener('click', function () {
+                    const adId = this.getAttribute('data-ad-id');
+                    const title = this.getAttribute('data-title');
+                    const description = this.getAttribute('data-description');
+                    const price = this.getAttribute('data-price');
+                    const location = this.getAttribute('data-location');
+                    const image = this.getAttribute('data-image');
+
+                    // Populate the form with the ad's current data
+                    document.querySelector('#viewForm #ad_id').textContent = adId;
+                    document.querySelector('#viewForm #title').textContent = title;
+                    document.querySelector('#viewForm #description').textContent = description;
+                    document.querySelector('#viewForm #price').textContent = price;
+                    document.querySelector('#viewForm #location').textContent = location;
+                    document.querySelector('#viewForm #image').setAttribute('src', image);
+
+                    // Open the form (assuming it's a modal)
+                    $('#adViewFormModal').modal('show');
+                });
+            });
+
+            document.querySelector('.change-password-btn').addEventListener('click', function () {
+                // Open the form (assuming it's a modal)
+                $('#changePassFormModal').modal('show');
+            });
+
+            document.getElementById('changePassForm').addEventListener('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                const formElement = this;
+                if (!formElement) {
+                    console.error("Form element not found.");
+                    return;
+                }
+
+                const formData = new FormData(formElement);
+                const password = document.getElementById('password').value.trim();
+                const confirmPassword = document.getElementById('confirm_password').value.trim();
+
+                let hasError = false;
+
+                // Basic validation
+                if (password === '') {
+                    document.getElementById('password-error').textContent = 'Password is required';
+                    hasError = true;
+                } else if (!validatePassword(password)) {
+                    document.getElementById('password-error').textContent = 'Password must be 6-12 characters long, contain at least one uppercase letter, and can include only @ as a special character';
+                    hasError = true;
+                }
+                if (confirmPassword === '') {
+                    document.getElementById('confirm_password-error').textContent = 'Confirm password is required';
+                    hasError = true;
+                } else if (password !== confirmPassword) {
+                    document.getElementById('confirm_password-error').textContent = 'Passwords do not match';
+                    hasError = true;
+                }
+
+                if (hasError) return;
+
+                fetch('controller/userController.php?action=changePassword', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                       alert('Password Changed Successfully.');
+                       $('#changePassFormModal').modal('hide');
+                    } else {
+                        document.getElementById('form-error').textContent = data.error || 'Reset pasword failed';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            });
+
+            function validatePassword(password) {
+                const re = /^(?=.*[A-Z])[A-Za-z0-9@]{6,12}$/;
+                return re.test(password);
+            }
+
             // Handle ad edit form submission
             document.querySelectorAll('.editAdForm').forEach(button => {
 

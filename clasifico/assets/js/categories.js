@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     </div>
                     <div class="icon-box"><i class="icon-${category.icon_id}"></i></div>
                     <h5>${category.name}</h5>
-                    <span>${category.count}</span>
+                    
                 </div>
             </div>
         `;
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <div class="inner-box">
                         <figure class="image-box"><img src="assets/images/resource/category-${category.id}.jpg" alt=""></figure>
                         <div class="lower-content">
-                            <span>${category.count}</span>
+                            
                             <div class="icon-box"><i class="icon-${category.icon_id}"></i></div>
                             <h4><a href="browse-ads-1.php">${category.name}</a></h4>
                         </div>

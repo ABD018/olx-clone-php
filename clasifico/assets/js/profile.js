@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.getElementById('name').value = data.name || '';
                 document.getElementById('email').value = data.email || '';
                 document.getElementById('address').value = data.address || '';
-                document.getElementById('phone_number').value = data.phone || '';
+                document.getElementById('phone_number').value = data.phone_number || '';
             }
         })
         .catch(error => console.error('Error fetching profile:', error));
@@ -214,7 +214,7 @@ submitAdForm.addEventListener('submit', function(e) {
     const adTitle = document.getElementById('adTitle').value.trim();
     const adDescription = document.getElementById('adDescription').value.trim();
     const adImage = document.getElementById('adImage').files[0];
-    const authorImage = document.getElementById('authorImage') ? document.getElementById('authorImage').files[0] : null;
+    const authorImage = document.getElementById('authorImage') ? document.getElementById('authorImage').getAttribute('src') : null;
     const adLocation = document.getElementById('adLocation').value.trim();
     const adPrice = document.getElementById('adPrice').value.trim();
     const authorName = document.getElementById('authorName') ? document.getElementById('authorName').value.trim() : '';

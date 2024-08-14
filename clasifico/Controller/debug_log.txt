@@ -1,0 +1,8 @@
+Array
+(
+    [success] => 1
+)
+Array
+(
+    [error] => Email already exists, please sign in
+)

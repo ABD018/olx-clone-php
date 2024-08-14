@@ -43,6 +43,14 @@ document.addEventListener("DOMContentLoaded", function() {
                 updateActiveCategory(this); // Update the active category style
             });
         });
+
+        document.querySelector('.searchButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            const inputVal = document.querySelector('.searchInput').value;
+            fetchFeaturedAds('', inputVal.trim());
+
+        });
+        
     }
 
     // Function to update active category style
@@ -55,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Function to fetch featured ads based on selected category
-    function fetchFeaturedAds(category) {
+    function fetchFeaturedAds(category, itemTitle) {
 
         category = category=="All" ? null : category;
         // console.log(category)
@@ -64,6 +72,9 @@ document.addEventListener("DOMContentLoaded", function() {
         var url = category ? 
             `controller/userController.php?action=getAdsByCategory&category_id=${category}` : 
             "controller/userController.php?action=getFeaturedAds";
+
+        if (itemTitle)
+            url = `controller/userController.php?action=getAdsByItemTitle&itemTitle=${itemTitle}`
     
         // Create a new XMLHttpRequest object
         var xhr = new XMLHttpRequest();
