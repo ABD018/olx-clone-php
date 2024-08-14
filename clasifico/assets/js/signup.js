@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value.trim();
         const confirmPassword = document.getElementById('confirm_password').value.trim();
+        const role = document.getElementById('role').value; // Get selected role
         let hasError = false;
 
         // Basic validation
@@ -35,19 +36,19 @@ document.addEventListener('DOMContentLoaded', function() {
             hasError = true;
         }
         if (confirmPassword === '') {
-            document.getElementById('confirm-password-error').textContent = 'Confirm password is required';
+            document.getElementById('confirm_password-error').textContent = 'Confirm password is required';
             hasError = true;
         } else if (password !== confirmPassword) {
-            document.getElementById('confirm-password-error').textContent = 'Passwords do not match';
+            document.getElementById('confirm_password-error').textContent = 'Passwords do not match';
             hasError = true;
         }
 
         if (hasError) return;
 
         const formData = new FormData(this);
-        const action = 'signup';
+       // formData.append('role', role); 
 
-        fetch(`controller/userController.php?action=${action}`, {
+        fetch('controller/userController.php?action=signup', {
             method: 'POST',
             body: formData
         })

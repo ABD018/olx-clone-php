@@ -63,15 +63,25 @@ if ($adId > 0) {
 
 
 <style>
-                .page-title-2 {
-                    background-image: url('<?php echo htmlspecialchars($ad['image']); ?>');
-                    background-size: cover;
-                    background-position: center;
-                }
-                .profile-image-box img {
-                    border-radius: 50%;
-                }
-            </style>
+    .page-title-2 {
+        background-image: url('<?php echo htmlspecialchars($ad['image']); ?>');
+        background-size: cover;
+        background-position: center;
+    }
+    .profile-image-box img {
+        border-radius: 50%;
+    }
+
+    .slider-content .product-image img {
+        height: 400px;
+        width: 710px !important;
+    }
+
+    ul.thumb-box.clearfix img {
+        height: 78px;
+        width: 138px !important;
+    }
+</style>
 
     <div class="boxed_wrapper">
 
@@ -117,42 +127,42 @@ if ($adId > 0) {
         <!-- Page Title -->
         
         <section class="page-title-2">
-                <div class="auto-container">
-                    <div class="content-box">
-                        <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
-                        <span class="category"><i class="fas fa-tags"></i><?php echo htmlspecialchars($ad['category']); ?></span>
+            <div class="auto-container">
+                <div class="content-box">
+                    <h1><?php echo htmlspecialchars($ad['title']); ?></h1>
+                    <span class="category"><i class="fas fa-tags"></i><?php echo htmlspecialchars($ad['category']); ?></span>
+                </div>
+                <div class="info-box clearfix">
+                    <div class="left-column pull-left clearfix">
+                        <div class="image-box"><img src="<?php echo htmlspecialchars($ad['author_image']); ?>" alt=""></div>
+                        <h4><?php echo htmlspecialchars($ad['author_name']); ?><i class="icon-18"></i></h4>
+                        <ul class="rating clearfix">
+                            <?php for ($i = 0; $i < $ad['rating']; $i++): ?>
+                                <li><i class="icon-17"></i></li>
+                            <?php endfor; ?>
+                            <li><a href="index.php">(<?php echo htmlspecialchars($ad['rating_count']); ?>)</a></li>
+                        </ul>
+                        <span class="sell">For sell</span>
+                        <h5><span>Start From:</span>$<?php echo htmlspecialchars($ad['price']); ?></h5>
                     </div>
-                    <div class="info-box clearfix">
-                        <div class="left-column pull-left clearfix">
-                            <div class="image-box"><img src="<?php echo htmlspecialchars($ad['author_image']); ?>" alt=""></div>
-                            <h4><?php echo htmlspecialchars($ad['author_name']); ?><i class="icon-18"></i></h4>
-                            <ul class="rating clearfix">
-                                <?php for ($i = 0; $i < $ad['rating']; $i++): ?>
-                                    <li><i class="icon-17"></i></li>
-                                <?php endfor; ?>
-                                <li><a href="index.php">(<?php echo htmlspecialchars($ad['rating_count']); ?>)</a></li>
-                            </ul>
-                            <span class="sell">For sell</span>
-                            <h5><span>Start From:</span>$<?php echo htmlspecialchars($ad['price']); ?></h5>
-                        </div>
-                        <div class="right-column pull-right clearfix">
-                            <ul class="links-list clearfix">
-                                <li class="share-option">
-                                    <a href="browse-add-details.html" class="share-btn"><i class="fas fa-share-alt"></i></a>
-                                    <ul>
-                                        <li><a href="browse-add-details.html"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="browse-add-details.html"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="browse-add-details.html"><i class="fab fa-google-plus-g"></i></a></li>
-                                        <li><a href="browse-add-details.html"><i class="fab fa-linkedin-in"></i></a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="browse-add-details.php"><i class="icon-21"></i></a></li>
-                                <li><a href="browse-add-details.php"><i class="icon-22"></i></a></li>
-                            </ul>
-                        </div>
+                    <div class="right-column pull-right clearfix">
+                        <ul class="links-list clearfix">
+                            <li class="share-option">
+                                <a href="browse-add-details.html" class="share-btn"><i class="fas fa-share-alt"></i></a>
+                                <ul>
+                                    <li><a href="browse-add-details.html"><i class="fab fa-facebook-f"></i></a></li>
+                                    <li><a href="browse-add-details.html"><i class="fab fa-twitter"></i></a></li>
+                                    <li><a href="browse-add-details.html"><i class="fab fa-google-plus-g"></i></a></li>
+                                    <li><a href="browse-add-details.html"><i class="fab fa-linkedin-in"></i></a></li>
+                                </ul>
+                            </li>
+                            <li><a href="browse-add-details.php"><i class="icon-21"></i></a></li>
+                            <li><a href="browse-add-details.php"><i class="icon-22"></i></a></li>
+                        </ul>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
         <!-- End Page Title -->
 
 
@@ -163,39 +173,40 @@ if ($adId > 0) {
                     <div class="col-lg-8 col-md-12 col-sm-12 content-side">
                         <div class="add-details-content">
                             <div class="content-one single-box">
-                            <div class="text">
-                            <h3>Product Description</h3>
-                            <?php echo htmlspecialchars($ad['description']); ?></p>
-                        </div>
+                                <div class="text">
+                                    <h3>Product Description</h3>
+                                    <?php echo htmlspecialchars($ad['description']); ?></p>
+                                </div>
                             </div>
                             <div class="content-two single-box">
-                            <div class="bxslider">
-    <div class="slider-content">
-        <div class="product-image">
-            <!-- Main image, you can set this to the first reference image or another main image -->
-            <figure class="image">
-                <img src="assets/uploads/reference_images/<?php echo htmlspecialchars($referenceImages[0] ?? 'default-image.jpg'); ?>" alt="">
-            </figure>
-        </div>
-                                <!-- display five images in a slider dynamically -->
-        <div class="slider-pager">
-            <ul class="thumb-box clearfix">
-                <?php foreach ($referenceImages as $index => $image): ?>
-                    <li>
-                        <a class="<?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $index; ?>" href="#">
-                            <figure>
-                                <img src="assets/uploads/reference_images/<?php echo htmlspecialchars($image); ?>" alt="">
-                            </figure>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-    </div>
-</div>
-
-
-                        
+                                <div class="bxslider">
+                                    <?php foreach ($referenceImages as $index => $image): ?>
+                                        <div class="slider-content">
+                                            <div class="product-image">
+                                                <!-- Main image, you can set this to the first reference image or another main image -->
+                                                <figure class="image">
+                                                    <img src="<?php echo htmlspecialchars($referenceImages[$index] ?? 'default-image.jpg'); ?>" alt="">
+                                                </figure>
+                                            </div>
+                                            <!-- display five images in a slider dynamically -->
+                                            <div class="slider-pager">
+                                                <ul class="thumb-box clearfix">
+                                                    <?php foreach ($referenceImages as $index => $image): ?>
+                                                        <li>
+                                                            <a class="<?php echo $index === 0 ? 'active' : ''; ?>" data-slide-index="<?php echo $index; ?>" href="#">
+                                                                <figure>
+                                                                    <img src="<?php echo htmlspecialchars($image); ?>" alt="">
+                                                                </figure>
+                                                            </a>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                            </div>
+                                    
                             <div class="content-four single-box">
                                 <div class="text">
                                     <h3>Location</h3>
@@ -203,9 +214,10 @@ if ($adId > 0) {
                                 <div class="contact-map">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55945.16225505631!2d-73.90847969206546!3d40.66490264739892!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1601263396347!5m2!1sen!2sbd"></iframe>
                                 </div>
-                            
+                                    
                                 <p class="info-box clearfix">Address: <?php echo htmlspecialchars($ad['location']); ?></p>
                             </div>
+
                             <div class="content-five single-box">
                                 <div class="text">
                                     <h4>Contact Now</h4>
@@ -231,7 +243,7 @@ if ($adId > 0) {
                                                 <input type="text" name="title" required="">
                                             </div>
                                         </div>
-                                       
+                                        
                                         <div class="col-lg-12 col-md-12 col-sm-12 column">
                                             <div class="form-group">
                                                 <label>Review Description*</label>
@@ -248,7 +260,7 @@ if ($adId > 0) {
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="default-sidebar category-sidebar">
                             
                             <div class="sidebar-category sidebar-widget">
@@ -260,7 +272,7 @@ if ($adId > 0) {
                                         <li><a href="category-details.html">All</a></li>
                                         <li><a href="category-details.html">Air Condition</a></li>
                                         <li class="dropdown">
-                                            <a href="category-details.html" class="current">Ellectronics</a>
+                                            <a href="category-details.html" class="current">Electronics</a>
                                             <ul>
                                                 <li><a href="category-details.html">Computers</a></li>
                                                 <li><a href="category-details.html">Drones</a></li>
@@ -285,7 +297,7 @@ if ($adId > 0) {
                             </div>
                             
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </section>

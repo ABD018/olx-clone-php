@@ -28,6 +28,29 @@
 <link href="assets/css/style.css" rel="stylesheet">
 <link href="assets/css/responsive.css" rel="stylesheet">
 
+<style>
+    .search-box-inner .input-inner .form-group {
+        position: relative;
+        display: inline-block;
+        float: left;
+        width: 100%;
+        margin: 0px;
+    }
+
+    .search-box-inner {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        background: #fff;
+        padding: 10px;
+        box-shadow: 0px 10px 50px 0px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        margin-bottom: 0;
+        z-index: 1;
+    }
+</style>
+
+
 </head>
 
 
@@ -144,6 +167,19 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="item-shorting clearfix">
+                                <div class="search-box-inner">
+                                    <div class="input-inner clearfix">
+                                        <div class="form-group">
+                                            <i class="icon-2"></i>
+                                            <input type="search" class="searchInput" name="name" placeholder="Search Keyword..." required="">
+                                        </div>
+                                        <div class="btn-box">
+                                            <button class="searchButton"><i class="icon-2"></i>Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="category-block wrapper grid browse-add" id="featured-ads-container">
                                 <div class="list-item feature-style-three pd-0">
                                     
@@ -198,5 +234,4 @@
 
 </body><!-- End of .page_wrapper -->
 
-<!-- Mirrored from azim.commonsupport.com/Clasifico/browse-ads-1.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 29 Jul 2024 12:26:37 GMT -->
 </html>

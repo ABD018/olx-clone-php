@@ -1,25 +1,72 @@
 <?php
 require_once 'Models/func.php';
+
 session_start();
 
-// Check if the request is from AJAX
+use PHPMailer\PHPMailer\PHPMailer;
+
+require 'C:/xampp/vendor/autoload.php';
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
-    $password = $_POST['password'];
 
-    // Validate credentials (Hash passwords in practice)
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? AND password = ?');
-    $stmt->execute([$email, $password]);
-    $user = $stmt->fetch();
+    // Initialize database connection
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    // Check if the email exists in the users table
+    $stmt = $conn->prepare('SELECT id FROM users WHERE email = ?');
+    $stmt->bind_param('s', $email); // Bind parameters to prevent SQL injection
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc(); // Use fetch_assoc() to get an associative array
 
     if ($user) {
-        $_SESSION['user_id'] = $user['id']; // Set session variable
-        $_SESSION['is_admin'] = $user['role'] === 'admin'; // Check if the user is an admin
-        echo json_encode(['success' => true, 'is_admin' => $_SESSION['is_admin']]);
+        // Generate a 6-digit OTP
+        $otp = rand(100000, 999999);
+        date_default_timezone_set('Asia/Kolkata');
+        $expires_at = date('Y-m-d H:i:s', strtotime('+10 minutes')); // OTP expires in 10 minutes
+
+        // Insert OTP into otp_verification table
+        $stmt = $conn->prepare('INSERT INTO otp_verification (user_id, otp, expires_at) VALUES (?, ?, ?)');
+        if ($stmt) {
+            $stmt->bind_param('iss', $user['id'], $otp, $expires_at);
+            $stmt->execute();
+
+            // Send the OTP to the user's email
+            // mail($email, "Your OTP Code", "Your OTP code is $otp. It will expire in 10 minutes.");
+            $phpmailer = new PHPMailer(true);
+            $phpmailer->isSMTP();
+            $phpmailer->Host = 'sandbox.smtp.mailtrap.io'; // SMTP server
+            $phpmailer->SMTPAuth = true;                   // Enable SMTP authentication
+            $phpmailer->Username = 'e50d7151118e58';       // SMTP username
+            $phpmailer->Password = '9e3dfc14385396';       // SMTP password
+            $phpmailer->Port = 2525;
+
+             // Recipients
+            $phpmailer->setFrom('noreply@olxclone.com', 'OLX Clone');
+            $phpmailer->addAddress($email);                // Add a recipient
+
+            // Content
+            $phpmailer->isHTML(true);                      // Set email format to HTML
+            $phpmailer->Subject = 'Your OTP Code';
+            $phpmailer->Body    = "Your OTP code is <b>$otp</b>. It will expire in 10 minutes.";
+            $phpmailer->AltBody = "Your OTP code is $otp. It will expire in 10 minutes."; // Plain text for non-HTML mail clients
+
+            $phpmailer->send();
+
+            // Redirect to verify OTP page
+            $_SESSION['otp_user_id'] = $user['id'];
+            header('Location: verify_otp.php');
+            exit();
+        } else {
+            $error_message = "Failed to prepare OTP insertion query.";
+        }
     } else {
-        echo json_encode(['success' => false, 'error' => 'Invalid credentials']);
+        $error_message = "Email does not exist.";
     }
-    exit(); // Ensure no further code is executed
+
+    $conn->close(); // Close the connection
 }
 ?>
 
@@ -80,11 +127,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="auto-container">
                 <div class="content-box centred mr-0">
                     <div class="title">
-                        <h1>Login</h1>
+                        <h1>Forgot Password</h1>
                     </div>
                     <ul class="bread-crumb clearfix">
                         <li><a href="index.php">Home</a></li>
-                        <li>Login</li>
+                        <li>Forgot Password</li>
                     </ul>
                 </div>
             </div>
@@ -95,37 +142,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div class="auto-container">
                 <div class="inner-container">
                     <div class="inner-box">
-                        <h2>Login</h2>
-                        <div class="other-content centred">
-                            <ul class="social-links clearfix">
-                                <li><a href="login.php"><i class="fab fa-facebook-f"></i>Login with Facebook</a></li>
-                                <li><a href="login.php"><i class="fab fa-google-plus-g"></i>Login with Google Plus</a></li>
-                            </ul>
-                            <div class="text"><span>or</span></div>
-                        </div>
-                        <form action="login.php" method="post" class="login-form" id="login-form" novalidate>
-                            <div id="form-error" class="form-error"></div>
-
+                        <h2>Forgot Password:</h2>
+                        <form action="forgot_password.php" method="post" novalidate>
+                            <div id="form-error" class="form-error">
+                                <?php if (isset($error_message)): ?>
+                                    <?php echo $error_message; ?>
+                                <?php endif; ?>
+                            </div>
                             <div class="form-group">
-                                <label>Email</label>
+                                <label for="email">Enter your email address:</label>
                                 <input type="email" name="email" required autocomplete="off" id="email" placeholder="Email">
                                 <div id="email-error" class="error-message"></div>
                             </div>
-                            <div class="form-group">
-                                <label>Password</label>
-                                <input type="password" name="password" required autocomplete="off" id="password" placeholder="Password">
-                                <div id="password-error" class="error-message"></div>
-                            </div>
                             <div class="form-group message-btn">
-                                <button type="submit" class="theme-btn-one">Login</button>
+                                <button type="submit" class="theme-btn-one">Submit</button>
                             </div>
                         </form>
-                        <div class="othre-text centred">
-                            <p>Don't have an account? <a href="signup.php">Sign up</a></p>
-                        </div>
-                        <div class="othre-text centred">
-                            <p><a href="forgot_password.php">Forgot Password?</a></p>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -139,29 +171,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <span class="far fa-long-arrow-up"></span>
         </button>
     </div>
-
-    <script>
-         document.getElementById('login-form').onsubmit = async function (e) {
-            e.preventDefault();
-
-            const formData = new FormData(this);
-            const response = await fetch('login.php', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                if (result.is_admin) {
-                    window.location.href = 'admin_dashboard.php'; // Redirect to admin dashboard
-                } else {
-                    window.location.href = 'user.php'; // Redirect to user dashboard
-                }
-            } else {
-                document.getElementById('loginError').textContent = result.error;
-            }
-        };
-    </script>
 
     <!-- jQuery plugins -->
     <script src="assets/js/jquery.js"></script>

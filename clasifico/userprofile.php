@@ -25,6 +25,10 @@ if (!$user) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
     $name = trim($_POST['name'] ?? '');
     $email = trim($_POST['email'] ?? '');
+    $address = trim($_POST['address'] ?? '');
+    $phone_number = trim($_POST['phone'] ?? '');
+
+    error_log("$phone_number" . $phone_number);
 
     $errors = [];
 
@@ -41,9 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_profile'])) {
         $db = new Database();
         $conn = $db->getConnection();
 
-        $sql = "UPDATE users SET name = ?, email = ? WHERE id = ?";
+        $sql = "UPDATE users SET name = ?, email = ?, address = ?, phone_number = ? WHERE id = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssi", $name, $email, $user_id);
+        $stmt->bind_param("sssdi", $name, $email, $address, $phone_number, $user_id);
 
         if ($stmt->execute()) {
             $message = 'Profile updated successfully!';

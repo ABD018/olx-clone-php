@@ -1,10 +1,39 @@
+<?php
+require_once 'Models/func.php';
+
+session_start();
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Initialize database connection
+    $db = new Database();
+    $conn = $db->getConnection();
+
+    $otp = $_POST['otp'];
+    $user_id = $_SESSION['otp_user_id'];
+
+    // Check if the OTP is valid
+    $stmt = $conn->prepare('SELECT * FROM otp_verification WHERE user_id = ? AND otp = ? AND expires_at > NOW()');
+    $stmt->bind_param('is', $user_id, $otp);
+    $stmt->execute();
+    $otpRecord = $stmt->get_result()->fetch_assoc();
+
+    if ($otpRecord) {
+        // OTP is valid, redirect to reset password page
+        header('Location: reset_password.php');
+        exit();
+    } else {
+        $error_message = "Invalid or expired OTP.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <title>olx - Sign Up</title>
+    <title>olx - Login</title>
 
     <!-- Fav Icon -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -26,22 +55,20 @@
     <link href="assets/css/responsive.css" rel="stylesheet">
 
     <!-- Custom JS -->
-    <script src="assets/js/signup.js" defer></script>
+    <script src="assets/js/login.js" defer></script>
     <style>
-     .form-error {
-    color: red;
-    font-size: 1em;
-    text-align: center;
-    margin-bottom: 10px;
-}
+       .form-error {
+            color: red;
+            font-size: 1em;
+            text-align: center;
+            margin-bottom: 10px;
+        }
 
-.error-message {
-    color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-
-
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -57,68 +84,36 @@
             <div class="auto-container">
                 <div class="content-box centred mr-0">
                     <div class="title">
-                        <h1>Sign up</h1>
+                        <h1>Verify OTP</h1>
                     </div>
                     <ul class="bread-crumb clearfix">
                         <li><a href="index.php">Home</a></li>
-                        <li>Sign up</li>
+                        <li>Verify OTP</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- signup-section -->
-        <section class="login-section signup-section bg-color-2">
+        <!-- login-section -->
+        <section class="login-section bg-color-2">
             <div class="auto-container">
                 <div class="inner-container">
                     <div class="inner-box">
-                        <h2>Sign up</h2>
-                        <div class="other-content centred">
-                            <ul class="social-links clearfix">
-                                <li><a href="login.php"><i class="fab fa-facebook-f"></i>Login with Facebook</a></li>
-                                <li><a href="login.php"><i class="fab fa-google-plus-g"></i>Login with Google Plus</a></li>
-                            </ul>
-                            <div class="text"><span>or</span></div>
-                        </div>
-                        <!-- <div class="error-container" style="display: none; color: red;"></div> -->
-                        <form action="signup.php" method="post" class="signup-form" id="signup-form" novalidate>
-    <div id="form-error" class="form-error"></div>
-
-    <div class="form-group">
-        <label for="role">Role</label>
-        <select name="role" id="role" required>
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-        </select>
-    </div>
-    
-    <div class="form-group">
-        <label>Name</label>
-        <input type="text" name="name" required autocomplete="off" placeholder="Name" id="name">
-        <div id="name-error" class="error-message"></div>
-    </div>
-    <div class="form-group">
-        <label>Email</label>
-        <input type="email" name="email" required autocomplete="off" placeholder="Email" id="email">
-        <div id="email-error" class="error-message"></div>
-    </div>
-    <div class="form-group">
-        <label>Password</label>
-        <input type="password" name="password" required autocomplete="off" placeholder="Password" id="password">
-        <div id="password-error" class="error-message"></div>
-    </div>
-    <div class="form-group">
-        <label>Confirm Password</label>
-        <input type="password" name="confirm-password" required autocomplete="off" placeholder="Confirm password" id="confirm_password">
-        <div id="confirm_password-error" class="error-message"></div>
-    </div>
-    <div class="form-group message-btn">
-        <button type="submit" class="theme-btn-one">Sign up</button>
-    </div>
-</form>
-                        <div class="othre-text centred">
-                            <p>Already have an account? <a href="login.php">Sign in</a></p>
-                        </div>
+                        <h2>Verify OTP:</h2>
+                        <form action="verify_otp.php" method="post" novalidate>
+                            <div id="form-error" class="form-error">
+                                <?php if (isset($error_message)): ?>
+                                    <?php echo $error_message; ?>
+                                <?php endif; ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="otp">Enter OTP:</label>
+                                <input type="text" name="otp" id="otp" class="form-control" required>
+                            </div>
+                            <div class="form-group message-btn">
+                                <button type="submit" class="theme-btn-one">Submit</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
