@@ -116,10 +116,17 @@ function login($data) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
         if (password_verify($password, $user['password'])) {
-            // session_start();
+            // Start the session if not already started
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            
             $_SESSION['user_id'] = $user['id'];
+            $_SESSION['is_admin'] = $user['role'] === 'admin';
+            $_SESSION['user_name'] = $user['name']; // Store user name if needed
+            
             $conn->close();
-            return ['success' => true];
+            return ['success' => true, 'is_admin' => $_SESSION['is_admin']];
         } else {
             $conn->close();
             return ['error' => 'Invalid password'];
@@ -446,5 +453,98 @@ function getAllFeaturedAds() {
     $conn->close();
     return $ads;
 }
+
+function getAllAdmins() {
+    $db = new Database();
+    $conn = $db->getConnection();
+    $sql = "SELECT id, name FROM users WHERE role = 'admin'";
+    $result = $conn->query($sql);
+    
+    $admins = [];
+    if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+            $admins[] = $row;
+        }
+    }
+    return $admins;
+}
+
+function sendMessage($senderId, $receiverId, $message) {
+    $db = new Database();
+    $conn = $db->getConnection();
+    $sql = "INSERT INTO messages (sender_id, receiver_id, message) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('iis', $senderId, $receiverId, $message);
+    if (!$stmt->execute()) {
+        die('Execute failed: ' . $stmt->error);
+    }
+    $stmt->close();
+}
+
+function getMessages($userId) {
+    $db = new Database();
+    $conn = $db->getConnection();
+    
+    // Check if the connection is successful
+    if ($conn->connect_error) {
+        die('Connection failed: ' . $conn->connect_error);
+    }
+
+    $sql = "SELECT m.*, u1.name AS sender_name, u2.name AS receiver_name
+              FROM messages m
+              JOIN users u1 ON m.sender_id = u1.id
+              JOIN users u2 ON m.receiver_id = u2.id
+              WHERE m.sender_id = ? OR m.receiver_id = ?
+              ORDER BY m.timestamp DESC";
+    
+    // Prepare the statement
+    $stmt = $conn->prepare($sql);
+
+    // Check if the statement was prepared successfully
+    if (!$stmt) {
+        die('Prepare failed: ' . $conn->error);
+    }
+
+    // Bind parameters
+    $stmt->bind_param('ii', $userId, $userId);
+
+    // Execute the statement
+    $stmt->execute();
+
+    // Fetch the results
+    $result = $stmt->get_result();
+    $messages = $result->fetch_all(MYSQLI_ASSOC);
+
+    // Close the statement
+    $stmt->close();
+    
+    return $messages;
+}
+
+function getUserInbox($userId) {
+    $db = new Database();
+    $conn = $db->getConnection();
+    
+    // Check if the connection is successful
+    if ($conn->connect_error) {
+        die('Connection failed: ' . $conn->connect_error);
+    }
+    $sql = "SELECT m.*, u.name AS sender_name
+            FROM messages m
+            JOIN users u ON m.sender_id = u.id
+            WHERE m.receiver_id = ? AND u.role = 'admin'
+            ORDER BY m.timestamp DESC";
+    
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $userId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $messages = $result->fetch_all(MYSQLI_ASSOC);
+
+    $stmt->close();
+    return $messages;
+}
+
+
 
 ?>

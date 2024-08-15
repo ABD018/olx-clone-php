@@ -82,6 +82,7 @@ class UserController {
     public function getAdDetails($ad_id) {
         return getAdDetails($ad_id);
     }
+    
 }
 
 $controller = new UserController();

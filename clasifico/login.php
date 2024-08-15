@@ -3,25 +3,39 @@ require_once 'Models/func.php';
 session_start();
 
 // Check if the request is from AJAX
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $email = $_POST['email'];
+//     $password = $_POST['password'];
+
+//     // Validate credentials (Hash passwords in practice)
+//     $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? AND password = ?');
+//     $stmt->execute([$email, $password]);
+//     $user = $stmt->fetch();
+
+//     if ($user) {
+//         $_SESSION['user_id'] = $user['id']; // Set session variable
+//         $_SESSION['is_admin'] = $user['role'] === 'admin'; // Check if the user is an admin
+//         echo json_encode(['success' => true, 'is_admin' => $_SESSION['is_admin']]);
+//     } else {
+//         echo json_encode(['success' => false, 'error' => 'Invalid credentials']);
+//     }
+//     exit(); // Ensure no further code is executed
+// }
+// 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    $data = [
+        'email' => $_POST['email'],
+        'password' => $_POST['password']
+    ];
 
-    // Validate credentials (Hash passwords in practice)
-    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? AND password = ?');
-    $stmt->execute([$email, $password]);
-    $user = $stmt->fetch();
+    $result = login($data);
 
-    if ($user) {
-        $_SESSION['user_id'] = $user['id']; // Set session variable
-        $_SESSION['is_admin'] = $user['role'] === 'admin'; // Check if the user is an admin
-        echo json_encode(['success' => true, 'is_admin' => $_SESSION['is_admin']]);
-    } else {
-        echo json_encode(['success' => false, 'error' => 'Invalid credentials']);
-    }
+    header('Content-Type: application/json');
+    echo json_encode($result);
     exit(); // Ensure no further code is executed
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -153,9 +167,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const result = await response.json();
             if (result.success) {
                 if (result.is_admin) {
-                    window.location.href = 'admin_dashboard.php'; // Redirect to admin dashboard
+                    window.location.href = '/OLX_MODEL/admin/admin_dashboard.php'; // Redirect to admin dashboard
                 } else {
-                    window.location.href = 'user.php'; // Redirect to user dashboard
+                    window.location.href = '/OLX_MODEL/clasifico/user.php'; // Redirect to user dashboard
                 }
             } else {
                 document.getElementById('loginError').textContent = result.error;

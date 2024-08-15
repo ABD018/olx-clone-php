@@ -407,7 +407,9 @@ if (isset($_SESSION['user_id'])) {
             <div class="list-group list-group-flush my-3">
                 <a href="#profile" class="list-group-item active">Profile</a>
                 <a href="#listings" class="list-group-item">My Listings</a>
-                <a href="#messages" class="list-group-item">Messages</a>
+                 <a href="message_form.php" class="list-group-item">Send message</a>
+                <a href="message_list.php" class="list-group-item">Sent messages</a>
+                <a href="user_inbox.php" class="list-group-item">Inbox</a>
                 <a href="logout.php" class="list-group-item">Logout</a>
             </div>
         </div>

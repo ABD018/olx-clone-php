@@ -1,0 +1,19 @@
+/* Add custom admin styles here */
+#wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#sidebar-wrapper {
+    width: 250px;
+    background: #343a40;
+    color: #fff;
+}
+
+#page-content-wrapper {
+    flex: 1;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+/* Additional styling */
