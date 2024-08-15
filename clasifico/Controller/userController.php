@@ -76,7 +76,7 @@ class UserController {
     }
 
     public function submitAd($data) {
-        return submitAd($data);      // abhishek gusain
+        return submitAd($data);      
     }
 
     public function getAdDetails($ad_id) {

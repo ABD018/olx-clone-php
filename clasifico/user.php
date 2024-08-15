@@ -185,6 +185,20 @@ if (isset($_SESSION['user_id'])) {
             border-radius: 4px;
         }
 
+        .form-group textarea {
+            height: 100px;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .form-group select {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
         .alert {
             padding: 15px;
             border-radius: 5px;
@@ -407,9 +421,9 @@ if (isset($_SESSION['user_id'])) {
             <div class="list-group list-group-flush my-3">
                 <a href="#profile" class="list-group-item active">Profile</a>
                 <a href="#listings" class="list-group-item">My Listings</a>
-                 <a href="message_form.php" class="list-group-item">Send message</a>
-                <a href="message_list.php" class="list-group-item">Sent messages</a>
-                <a href="user_inbox.php" class="list-group-item">Inbox</a>
+                <a href="#message_form" class="list-group-item">Send message</a>
+                <a href="#message_list" class="list-group-item">Sent messages</a>
+                <a href="#user_inbox" class="list-group-item">Inbox</a>
                 <a href="logout.php" class="list-group-item">Logout</a>
             </div>
         </div>
@@ -543,6 +557,18 @@ if (isset($_SESSION['user_id'])) {
                             <?php endif; ?>
                         </tbody>
                     </table>
+                </div>
+
+                <div class="content-section" id="message_form">
+                    <?php include 'message_form.php'; ?>
+                </div>
+
+                <div class="content-section" id="message_list">
+                    <?php include 'message_list.php'; ?>
+                </div>
+
+                <div class="content-section" id="user_inbox">
+                    <?php include 'user_inbox.php'; ?>
                 </div>
 
                 <!-- Ad View Modal -->

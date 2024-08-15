@@ -1,19 +1,370 @@
-/* Add custom admin styles here */
-#wrapper {
-    display: flex;
-    align-items: stretch;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
 }
 
-#sidebar-wrapper {
-    width: 250px;
-    background: #343a40;
-    color: #fff;
+.news-container {
+    overflow: hidden;
+    position: relative;
+    height: 400px;
+    width: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.news-item {
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    /* Adjust animation settings if necessary */
+}
+
+
+@keyframes newsFlow {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+@media (max-width: 768px) {
+    .calendar-container,
+    .todo-container {
+        width: 200px;
+        height: auto;
+        top: 20px;
+    }
+
+    .todo-container {
+        top: 240px;
+    }
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 15% 65% 20%;
+}
+
+#left-sidebar-wrapper {
+    display: grid;
+    grid-template-rows: 60px 1fr;
+    background: hsl(207, 73%, 58%);
+    color: white;
+    align-self: start;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar-heading {
+    align-self: center;
+    justify-self: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.list-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 1px solid #eeee;
+    background-color: hsl(207, 53%, 67%);
+
+    & a {
+        text-decoration: none;
+        width: 100%;
+        padding: 24px 0;
+        text-align: center;
+        color: white;
+        border-bottom: 1px solid hsl(207, 73%, 58%);
+
+        &:hover {
+            background: hsl(207, 73%, 66%);
+        }
+    }
+}
+
+#right-sidebar-wrapper {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    border-left: 1px solid #a3a3a3;
+
+    .calendar-container {
+        margin: 20px 0;
+        width: 350px;
+    }
 }
 
 #page-content-wrapper {
-    flex: 1;
-    padding: 20px;
-    background-color: #f8f9fa;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-rows: 150px auto;
+
+    .header {
+        align-self: center;
+        padding: 0 28px;
+        border-bottom: 1px solid #ccc;
+    }
+}
+ 
+
+/* Profile Section Styles */
+.profile-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 2rem;
+    background-color: #f7f9fc;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Additional styling */
+.profile-details {
+    flex: 1;
+    min-width: 300px;
+}
+
+.profile-details form .form-group,
+#add-events form > *,
+#send-messages form > *  {
+    margin-bottom: 1.5rem;
+}
+
+.profile-details label,
+#add-events label,
+#send-messages label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.profile-details input,
+#add-events input,
+#send-messages input {
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    padding: 0 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.profile-details input:focus,
+#add-events input:focus,
+#send-messages input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+
+#send-messages textarea {
+    width: 100%;
+    height: 2.5rem;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    padding: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+#send-messages textarea:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.profile-details button[type="submit"],
+#add-events button[type="submit"],
+#send-messages button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.profile-details button[type="submit"]:hover,
+#add-events button[type="submit"]:hover,
+#send-messages button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Container for the select box */
+.select-container {
+    position: relative;
+    width: 100%; /* Adjust the width as needed */
+    max-width: 300px; /* Set a maximum width */
+    margin: 20px 0; /* Spacing around the select box */
+}
+
+/* Basic styling for the select element */
+.select-container select {
+    appearance: none; /* Removes default styling */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    background-color: #f0f0f0; /* Background color */
+    border: 1px solid #ccc; /* Border color */
+    border-radius: 4px; /* Rounded corners */
+    padding: 10px; /* Padding inside the box */
+    width: 100%; /* Full width */
+    font-size: 16px; /* Font size */
+    color: #333; /* Text color */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+/* Custom arrow icon for the select box */
+.select-container::after {
+    content: '\25BC'; /* Unicode for down arrow */
+    position: absolute;
+    top: 50%;
+    right: 15px; /* Positioning the arrow */
+    transform: translateY(-50%);
+    pointer-events: none; /* Prevents click on the arrow */
+    color: #333; /* Arrow color */
+}
+
+/* Hover effect */
+.select-container select:hover {
+    background-color: #e6e6e6; /* Change background on hover */
+}
+
+/* Focus effect */
+.select-container select:focus {
+    outline: none; /* Remove default outline */
+    border-color: #007bff; /* Highlight border on focus */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Soft shadow */
+}
+
+/* Disabled styling */
+.select-container select:disabled {
+    background-color: #ddd;
+    color: #666;
+    cursor: not-allowed;
+}
+
+/* Optional: If you want the arrow to change color when the select is active */
+.select-container select:focus + .select-container::after {
+    color: #007bff;
+}
+
+
+.profile-picture-box {
+    flex: 0 1 250px;
+    text-align: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-picture-box img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 1rem;
+    border: 4px solid #007bff;
+}
+
+.profile-picture-box .form-control {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #d4d4d4;
+    font-size: 1rem;
+}
+
+.profile-picture-box button {
+    width: 100%;
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+.profile-picture-box button:hover {
+    background-color: #5a6268;
+}
+
+.profile-picture-box .change-password-btn {
+    background-color: #dc3545;
+    margin-top: 1rem;
+}
+
+.profile-picture-box .change-password-btn:hover {
+    background-color: #c82333;
+}
+
+.alert {
+    margin-top: 1rem;
+    padding: 1rem;
+    border-radius: 5px;
+    color: white;
+    text-align: center;
+}
+
+.alert-success {
+    background-color: #28a745;
+}
+
+.alert-error {
+    background-color: #dc3545;
+}
+
+.alert ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.alert li {
+    text-align: left;
+    margin: 0.5rem 0;
+}
+
+.content-section h3 {
+    color: #333;
+    font-weight: bold;
+    font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.content-section {
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 10px;
+}

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once '../admin/models/AdminModel.php'; // Ensure the path is correct
 
 // Instantiate the AdminModel
@@ -70,80 +69,59 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile-photo'])) {
 }
 ?>
 
-<!-- HTML Structure (Similar to User Profile) -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Profile</title>
-    <link rel="stylesheet" href="../assets/css/styles.css"> <!-- Update with your actual CSS path -->
-</head>
-<body>
-    <!-- Page Content -->
-    <div id="page-content-wrapper">
-        <nav class="navbar">
-            <button class="btn"><a href="index.php">Home</a></button>
-        </nav>
+<div class="content-section" id="profile">
+    <h3>Admin Profile</h3>
 
-        <div class="container-fluid">
-            <div class="content-section active" id="profile">
-                <h3>Admin Profile</h3>
+    <?php if (isset($message)): ?>
+        <div class="alert alert-success"><?php echo htmlspecialchars($message); ?></div>
+    <?php endif; ?>
 
-                <?php if (isset($message)): ?>
-                    <div class="alert alert-success"><?php echo htmlspecialchars($message); ?></div>
-                <?php endif; ?>
+    <?php if (!empty($errors)): ?>
+        <div class="alert alert-error">
+            <ul>
+                <?php foreach ($errors as $error): ?>
+                    <li><?php echo htmlspecialchars($error); ?></li>
+                <?php endforeach; ?>
+            </ul>
+        </div>
+    <?php endif; ?>
 
-                <?php if (!empty($errors)): ?>
-                    <div class="alert alert-error">
-                        <ul>
-                            <?php foreach ($errors as $error): ?>
-                                <li><?php echo htmlspecialchars($error); ?></li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
-                <?php endif; ?>
-
-                <div class="profile-section">
-                    <div class="profile-details">
-                        <form method="POST">
-                            <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" id="name" name="name"
-                                    value="<?php echo htmlspecialchars($admin['name']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email"
-                                    value="<?php echo htmlspecialchars($admin['email']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="address">Address</label>
-                                <input type="text" id="address" name="address"
-                                    value="<?php echo htmlspecialchars($admin['address']); ?>">
-                            </div>
-                            <div class="form-group">
-                                <label for="phone">Phone Number</label>
-                                <input type="text" id="phone_number" name="phone"
-                                    value="<?php echo htmlspecialchars($admin['phone_number']); ?>">
-                            </div>
-                            <button type="submit" name="update_profile" class="btn btn-primary">Update
-                                Profile</button>
-                        </form>
-                    </div>
-
-                    <div class="profile-picture-box">
-                        <img src="<?php echo htmlspecialchars($admin['profile_photo'] ?? 'assets/images/default-profile.png'); ?>"
-                            alt="Profile Picture" id="profile-pic">
-                        <form method="POST" enctype="multipart/form-data" class="change-photo-form">
-                            <input type="file" id="profile-photo" name="profile-photo" class="form-control">
-                            <button type="submit" class="btn btn-secondary change-photo-btn">Change Photo</button>
-                        </form>
-                        <button class="btn btn-secondary change-password-btn">Change Password</button>
-                    </div>
+    <div class="profile-section">
+        <div class="profile-details">
+            <form method="POST" action="update_profile">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name"
+                        value="<?php echo htmlspecialchars($admin['name']); ?>">
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email"
+                        value="<?php echo htmlspecialchars($admin['email']); ?>">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <input type="text" id="address" name="address"
+                        value="<?php echo htmlspecialchars($admin['address']); ?>">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="text" id="phone_number" name="phone"
+                        value="<?php echo htmlspecialchars($admin['phone_number']); ?>">
+                </div>
+                <button type="submit" name="update_profile" class="btn btn-primary">Update
+                    Profile</button>
+            </form>
+        </div>
+
+        <div class="profile-picture-box">
+            <img src="<?php echo htmlspecialchars($admin['profile_photo'] ?? 'assets/images/default-profile.png'); ?>"
+                alt="Profile Picture" id="profile-pic">
+            <form method="POST" enctype="multipart/form-data" class="change-photo-form">
+                <input type="file" id="profile-photo" name="profile-photo" class="form-control">
+                <button type="submit" class="btn btn-secondary change-photo-btn">Change Photo</button>
+            </form>
+            <button class="btn btn-secondary change-password-btn">Change Password</button>
         </div>
     </div>
-</body>
-</html>
+</div>
