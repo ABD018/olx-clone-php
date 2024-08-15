@@ -46,7 +46,7 @@ class AdminController {
         include 'profile.php';
     }
     private function showUsers() {
-        $messages = $this->model->getUsers();
+        $user = $this->model->getUsers();
         include 'all_users.php';
     }
 
@@ -68,16 +68,15 @@ class AdminController {
                 $messages = 'Please provide both title and date.';
             }
         }
-    
         include 'add_event.php';
     }
 
 
-        private function showMessages() {
-            $userId = $_SESSION['user_id']; // Ensure user_id is stored in session
-            $messages = $this->model->getUserMessages($userId);
-            include 'messages.php';
-        }
+    private function showMessages() {
+        $userId = $_SESSION['user_id'];
+        $messages = $this->model->getUserMessages($userId);
+        include 'messages.php';
+    }
 
     private function sendMessage() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {

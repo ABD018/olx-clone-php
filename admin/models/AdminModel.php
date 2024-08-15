@@ -29,7 +29,7 @@ class AdminModel {
 
     public function getNamesOfUsers() {
         // Replace this with actual database logic
-        $query = "SELECT id, name FROM users";
+        $query = "SELECT id, name, email FROM users";
         $result = $this->db->query($query);
         return $result->fetch_all(MYSQLI_ASSOC);;
     }

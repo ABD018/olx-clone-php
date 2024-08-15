@@ -1,5 +1,4 @@
 <?php
-session_start(); // Start the session
 
 require_once './Models/func.php';
 
@@ -18,9 +17,6 @@ $messages = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $receiverId = $_POST['receiver_id'];
     $message = $_POST['message'];
-
-    // Debugging: Output the values to ensure they are set correctly
-    echo "<pre>Sender ID: $senderId\nReceiver ID: $receiverId\nMessage: $message</pre>";
 
     if ($senderId && $receiverId && $message) {
         // Debugging: Ensure the IDs are numeric
@@ -60,30 +56,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Send Message</title>
-    <link rel="stylesheet" href="path/to/your/styles.css">
-</head>
-<body>
-    <h1>Send Message</h1>
-    <?php if (isset($messages)) echo "<p>$messages</p>"; ?>
-    <form action="" method="POST">
-        <input type="hidden" name="sender_id" value="<?php echo $senderId; ?>">
+<h1>Send Message</h1>
+<?php if (isset($messages)) echo "<p>$messages</p>"; ?>
 
+<form method="POST">
+    <input type="hidden" name="sender_id" value="<?php echo $senderId; ?>">
+    <div class="form-group">
         <label for="receiver_id">Select Admin:</label>
         <select id="receiver_id" name="receiver_id" required>
             <?php foreach ($admins as $admin): ?>
                 <option value="<?php echo $admin['id']; ?>"><?php echo htmlspecialchars($admin['name']); ?></option>
             <?php endforeach; ?>
         </select>
-
+    </div>
+    <div class="form-group">
         <label for="message">Message:</label>
         <textarea id="message" name="message" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-</body>
-</html>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send</button>
+</form>
