@@ -185,7 +185,7 @@
                                     
                                 </div>
                             </div>
-                            <div class="pagination-wrapper centred">
+                            <!-- <div class="pagination-wrapper centred">
                                 <ul class="pagination clearfix">
                                     <li><a href="browse-ads-1.php"><i class="far fa-angle-left"></i>Prev</a></li>
                                     <li><a href="browse-ads-1.php" class="current">01</a></li>
@@ -193,7 +193,7 @@
                                     <li><a href="browse-ads-1.php">03</a></li>
                                     <li><a href="browse-ads-1.php">Next<i class="far fa-angle-right"></i></a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>

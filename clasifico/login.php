@@ -110,13 +110,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="inner-container">
                     <div class="inner-box">
                         <h2>Login</h2>
-                        <div class="other-content centred">
+                        <!-- <div class="other-content centred">
                             <ul class="social-links clearfix">
                                 <li><a href="login.php"><i class="fab fa-facebook-f"></i>Login with Facebook</a></li>
                                 <li><a href="login.php"><i class="fab fa-google-plus-g"></i>Login with Google Plus</a></li>
                             </ul>
                             <div class="text"><span>or</span></div>
-                        </div>
+                        </div> -->
                         <form action="login.php" method="post" class="login-form" id="login-form" novalidate>
                             <div id="form-error" class="form-error"></div>
 

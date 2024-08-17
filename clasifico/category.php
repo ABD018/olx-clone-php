@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-<title>Clasifico - HTML 5 Template Preview</title>
+<title>Categories</title>
 
 <!-- Fav Icon -->
 <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -87,8 +87,8 @@
                         <li><a href="index.php">Home</a></li>
                         <li>All Category</li>
                     </ul>
-                </div>
-                <div class="search-box-inner">
+                <!-- </div> -->
+                <!-- <div class="search-box-inner">
                     <form action="https://azim.commonsupport.com/Clasifico/index.php" method="post">
                         <div class="input-inner clearfix">
                             <div class="form-group">
@@ -98,12 +98,12 @@
                             <div class="form-group">
                                 <i class="icon-3"></i>
                                 <select class="wide">
-                                   <option data-display="Select Location">Select Location</option>
+                                   <option data-display="Select Location">Select Location</option> -->
                                    <!-- <option value="1">California</option>
                                    <option value="2">New York</option>
                                    <option value="3">Sun Francis</option>
                                    <option value="4">Shicago</option> -->
-                                </select>
+                                <!-- </select>
                             </div>
                             <div class="form-group">
                                 <i class="icon-4"></i>
@@ -113,15 +113,15 @@
                                    <option value="2">Restaurant</option>
                                    <option value="3">Real Estate</option>
                                    <option value="4">Home Appliances</option> -->
-                                </select>
+                                <!-- </select>
                             </div>
                             <div class="btn-box">
                                 <button type="submit"><i class="icon-2"></i>Search</button>
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
+                </div>  -->
+             </div> 
         </section>
         <!-- End Page Title -->
 

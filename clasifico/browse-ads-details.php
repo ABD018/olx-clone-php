@@ -7,7 +7,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
 
-<title>Clasifico - HTML 5 Template Preview</title>
+<title>browse ads</title>
 
 <!-- Fav Icon -->
 <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
@@ -211,14 +211,14 @@ if ($adId > 0) {
                                 <div class="text">
                                     <h3>Location</h3>
                                 </div>
-                                <div class="contact-map">
+                                <!-- <div class="contact-map">
                                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d55945.16225505631!2d-73.90847969206546!3d40.66490264739892!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1601263396347!5m2!1sen!2sbd"></iframe>
-                                </div>
+                                </div> -->
                                     
                                 <p class="info-box clearfix">Address: <?php echo htmlspecialchars($ad['location']); ?></p>
                             </div>
 
-                            <div class="content-five single-box">
+                            <!-- <div class="content-five single-box">
                                 <div class="text">
                                     <h4>Contact Now</h4>
                                     <p>Your email address will not be published. Required fields are marked *</p>
@@ -257,10 +257,10 @@ if ($adId > 0) {
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
+                    <!-- <div class="col-lg-4 col-md-12 col-sm-12 sidebar-side">
                         <div class="default-sidebar category-sidebar">
                             
                             <div class="sidebar-category sidebar-widget">
@@ -297,7 +297,7 @@ if ($adId > 0) {
                             </div>
                             
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
